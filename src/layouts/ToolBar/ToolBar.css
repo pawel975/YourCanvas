@@ -1,0 +1,9 @@
+
+.tool-bar {
+    position: relative;
+    left: 0;
+    top: 0;
+    width: 10rem;
+    min-width: fit-content;
+    background-color: var(--clr-dark);
+}
