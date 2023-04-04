@@ -1,0 +1,6 @@
+
+.logo {
+    color: var(--clr-primary);
+    font-size: var(--fs-600);
+    font-family: var(--font-accent);
+}

@@ -1,0 +1,10 @@
+
+.nav-bar {
+    min-height: fit-content;
+    height: 5rem;
+    background: var(--clr-dark);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 2rem;
+}
