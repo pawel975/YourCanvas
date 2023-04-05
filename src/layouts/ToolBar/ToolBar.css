@@ -3,7 +3,7 @@
     position: relative;
     left: 0;
     top: 0;
-    width: 10rem;
+    width: 15rem;
     min-width: fit-content;
-    background-color: var(--clr-dark);
+    background-color: var(--clr-grey);
 }
