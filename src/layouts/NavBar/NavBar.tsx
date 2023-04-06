@@ -1,4 +1,4 @@
-import CreateNewProjectButton from "./CreateNewProjectButton/CreateNewProjectButton";
+import CreateNewProjectButton from "./CreateNewProjectMenu/CreateNewProjectButton";
 import Logo from "./Logo/Logo";
 import "./NavBar.css";
 

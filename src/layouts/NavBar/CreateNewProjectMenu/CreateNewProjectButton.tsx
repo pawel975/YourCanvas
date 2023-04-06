@@ -1,8 +1,8 @@
-import "./CreateNewProjectButton.css";
+import "./CreateNewProjectMenu.css";
 import * as React from 'react';
 import {Button, Menu, MenuItem} from '@mui/material';
 
-const CreateNewProjectButton: React.FC = () => {
+const CreateNewProjectMenu: React.FC = () => {
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -16,9 +16,9 @@ const CreateNewProjectButton: React.FC = () => {
     };
   
     return (
-        <div className="create-new-project-menu">
+        <div>
             <Button
-                color="inherit"
+                className="create-new-project-menu"
                 aria-controls={open ? 'create-new-project-button__menu' : undefined}
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
@@ -41,7 +41,7 @@ const CreateNewProjectButton: React.FC = () => {
     );
     }
 
-export default CreateNewProjectButton;
+export default CreateNewProjectMenu;
 
 
 

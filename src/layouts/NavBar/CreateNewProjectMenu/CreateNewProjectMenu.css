@@ -1,0 +1,11 @@
+
+.create-new-project-menu {
+    background-color: var(--clr-primary) !important;
+    margin-left: auto;
+    color: var(--clr-dark) !important;
+    font-size: var(--fs-200) !important;
+}
+
+.create-new-project-menu:hover {
+    background: var(--clr-accent) !important;
+}
