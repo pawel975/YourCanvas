@@ -16,10 +16,9 @@ const CreateNewProjectButton: React.FC = () => {
     };
   
     return (
-        <>
+        <div className="create-new-project-menu">
             <Button
-                //Used ID instead className, because className doesn't override default MUI styles
-                id="create-new-project-button"
+                color="inherit"
                 aria-controls={open ? 'create-new-project-button__menu' : undefined}
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
@@ -38,7 +37,7 @@ const CreateNewProjectButton: React.FC = () => {
             >
                 <MenuItem onClick={handleClose}>New project</MenuItem>
             </Menu>
-        </>
+        </div>
     );
     }
 
