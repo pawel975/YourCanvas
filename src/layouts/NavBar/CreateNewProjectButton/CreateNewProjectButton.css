@@ -1,0 +1,10 @@
+
+#create-new-project-button {
+    background-color: var(--clr-primary);
+    margin-left: auto;
+    color: var(--clr-dark);
+}
+
+#create-new-project-button:hover {
+    background: var(--clr-accent);
+}

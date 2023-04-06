@@ -2,9 +2,9 @@ import "./Logo.css";
 
 const Logo: React.FC = () => {
     return (
-        <div className="logo">
+        <a href="/" className="logo">
             <span>YourCanvas</span>
-        </div>
+        </a>
     )
 }
 
