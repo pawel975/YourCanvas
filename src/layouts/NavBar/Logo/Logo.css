@@ -1,12 +1,11 @@
-
 .logo {
-    color: var(--clr-primary);
-    font-size: var(--fs-600);
-    font-family: var(--font-accent);
-    flex: 1;
-    text-decoration: none;
+  color: var(--clr-primary);
+  font-size: var(--fs-600);
+  font-family: var(--font-accent);
+  flex: 1;
+  text-decoration: none;
 }
 
 .logo:hover {
-    color: var(--clr-accent);
+  color: var(--clr-accent);
 }

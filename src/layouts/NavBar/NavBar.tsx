@@ -2,14 +2,17 @@ import CreateNewProjectButton from "./CreateNewProjectMenu/CreateNewProjectButto
 import Logo from "./Logo/Logo";
 import "./NavBar.css";
 
-const NavBar: React.FC = () => {
-    return (
-        <nav className="nav-bar">
-            <Logo/>
-            <CreateNewProjectButton/>
-        </nav>
-    )
+interface NavBarProps {
+  [key: string]: Function;
 }
 
-export default NavBar;
+const NavBar: React.FC<NavBarProps> = ({ createNewProject }) => {
+  return (
+    <nav className="nav-bar">
+      <Logo />
+      <CreateNewProjectButton createNewProject={createNewProject} />
+    </nav>
+  );
+};
 
+export default NavBar;

@@ -1,4 +1,5 @@
 # YourCanvas
+
 App to create cards, resumes and other graphics
 
 # Installation
@@ -41,7 +42,7 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduc
 
 ## Authors
 
-* **Paweł Kurek** - *Initial work* - [pawel975](https://github.com/pawel975)
+- **Paweł Kurek** - _Initial work_ - [pawel975](https://github.com/pawel975)
 
 See also the list of [contributors](CONTRIBUTORS.md) who participated in this project.
 
