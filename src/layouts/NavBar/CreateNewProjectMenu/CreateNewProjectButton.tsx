@@ -12,18 +12,18 @@ const CreateNewProjectMenu: React.FC<CreateNewProjectButtonProps> = ({
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
-  const handleClick = (e: any) => {
+  function handleClick(e: any) {
     setAnchorEl(e.currentTarget);
-  };
+  }
 
-  const handleClose = () => {
+  function handleClose() {
     setAnchorEl(null);
-  };
+  }
 
-  const handleNewProjectButtonClick = () => {
+  function handleNewProjectButtonClick() {
     setAnchorEl(null);
     createNewProject();
-  };
+  }
 
   return (
     <div>
