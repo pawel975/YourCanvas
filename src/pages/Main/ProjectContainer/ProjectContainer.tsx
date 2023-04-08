@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import useOnDraw from '../../../hooks/useOnDraw';
 import './ProjectContainer.css';
-import { onDrawParams } from './interfaces';
+import { canvasCoordinates } from './interfaces';
 import getWindowSize from '../../../utils/getWindowSize';
 
 const ProjectContainer: React.FC = () => {
-  const setCanvasRef = useOnDraw({ onDraw });
+  const setCanvasRef = useOnDraw(onDraw);
   const canvasContainer = useRef(null);
   const [canvasSize, setCanvasSize] = useState({ width: '', height: '' });
 
@@ -16,10 +16,32 @@ const ProjectContainer: React.FC = () => {
     });
   }, []);
 
-  function onDraw(ctx: onDrawParams['ctx'], point: onDrawParams['point']) {
-    ctx.fillStyle = '#000000';
+  function onDraw(
+    ctx: CanvasRenderingContext2D,
+    point: canvasCoordinates,
+    prevPoint: canvasCoordinates
+  ) {
+    drawLine(prevPoint, point, ctx, '#000000', 5);
+  }
+
+  function drawLine(
+    start: canvasCoordinates,
+    end: canvasCoordinates,
+    ctx: CanvasRenderingContext2D,
+    color: string,
+    width: number
+  ) {
+    start = start ?? end;
     ctx.beginPath();
-    ctx.arc(point.x, point.y, 2, 0, 2 * Math.PI);
+    ctx.lineWidth = width;
+    ctx.strokeStyle = color;
+    ctx.moveTo(start.x, start.y);
+    ctx.lineTo(end.x, end.y);
+    ctx.stroke();
+
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.arc(start.x, start.y, 2, 0, 2 * Math.PI);
     ctx.fill();
   }
 
