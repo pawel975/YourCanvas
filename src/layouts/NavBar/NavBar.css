@@ -1,6 +1,7 @@
 .nav-bar {
   min-height: fit-content;
   height: 5rem;
+  width: 100%;
   background: var(--clr-dark);
   display: flex;
   flex-direction: row;

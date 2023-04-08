@@ -1,9 +1,9 @@
-import CreateNewProjectButton from "./CreateNewProjectMenu/CreateNewProjectButton";
-import Logo from "./Logo/Logo";
-import "./NavBar.css";
+import CreateNewProjectButton from './CreateNewProjectMenu/CreateNewProjectButton';
+import Logo from './Logo/Logo';
+import './NavBar.css';
 
 interface NavBarProps {
-  [key: string]: Function;
+  createNewProject: Function;
 }
 
 const NavBar: React.FC<NavBarProps> = ({ createNewProject }) => {

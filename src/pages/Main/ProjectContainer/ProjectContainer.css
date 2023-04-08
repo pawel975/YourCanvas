@@ -1,5 +1,9 @@
 .project-container {
-  width: 100%;
-  height: 100%;
+  position: relative;
+  width: calc(100% - 0rem);
+  height: calc(100% - 1rem);
   border: 0.1rem solid var(--clr-grey);
+}
+
+.project-canvas {
 }
