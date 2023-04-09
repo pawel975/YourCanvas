@@ -1,10 +1,10 @@
 import { Ref, useEffect, useRef } from 'react';
-import { drawPicker } from '../features/drawing';
-import { DrawType } from '../features/types';
-import { canvasCoordinates } from '../features/drawing/interfaces';
+import { freeDrawPicker } from '../freeDrawPicker';
+import { FreeDrawType } from '../types';
+import { CanvasCoordinates } from '../../../../globalInterfaces';
 
-export default function useOnDraw(
-  drawType: DrawType,
+export default function useFreeDraw(
+  drawType: FreeDrawType,
   color: string,
   drawWidth: number
 ): Ref<HTMLCanvasElement> {
@@ -45,7 +45,7 @@ export default function useOnDraw(
         const point = computePointInCanvas(e.clientX, e.clientY);
         const ctx = canvasRef.current?.getContext('2d');
 
-        drawPicker(drawType, prevPointRef.current, point, ctx!, color, drawWidth);
+        freeDrawPicker(drawType, prevPointRef.current, point, ctx!, color, drawWidth);
 
         prevPointRef.current = point;
       }
@@ -72,7 +72,7 @@ export default function useOnDraw(
     window.addEventListener('mouseup', mouseUpListener);
   }
 
-  function computePointInCanvas(clientX: number, clientY: number): canvasCoordinates {
+  function computePointInCanvas(clientX: number, clientY: number): CanvasCoordinates {
     if (canvasRef.current) {
       const boundingRect = canvasRef.current.getBoundingClientRect();
       return {
@@ -80,7 +80,7 @@ export default function useOnDraw(
         y: Number(String((clientY - boundingRect.top).toFixed(0))),
       };
     } else {
-      console.warn('Point reference to window, canvas ref is null');
+      console.error('Point reference to window, canvas ref is null');
       return {
         x: clientX,
         y: clientY,

@@ -1,8 +1,8 @@
-import { canvasCoordinates } from './interfaces';
+import { CanvasCoordinates } from '../../../globalInterfaces';
 
-export function freeDraw(
-  start: canvasCoordinates,
-  end: canvasCoordinates,
+export function rectDraw(
+  start: CanvasCoordinates,
+  end: CanvasCoordinates,
   ctx: CanvasRenderingContext2D,
   color: string,
   width: number
@@ -11,8 +11,7 @@ export function freeDraw(
   ctx.beginPath();
   ctx.lineWidth = width;
   ctx.strokeStyle = color;
-  ctx.moveTo(start.x, start.y);
-  ctx.lineTo(end.x, end.y);
+  ctx.rect(start.x, start.y, end.x - start.x, end.y - start.y);
   ctx.stroke();
 
   ctx.fillStyle = color;
