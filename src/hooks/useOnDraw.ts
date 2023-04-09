@@ -1,6 +1,13 @@
-import { LegacyRef, useEffect, useRef } from 'react';
+import { Ref, useEffect, useRef } from 'react';
+import { drawPicker } from '../features/drawing';
+import { DrawType } from '../features/types';
+import { canvasCoordinates } from '../features/drawing/interfaces';
 
-export default function useOnDraw(onDraw: Function): LegacyRef<HTMLCanvasElement> {
+export default function useOnDraw(
+  drawType: DrawType,
+  color: string,
+  drawWidth: number
+): Ref<HTMLCanvasElement> {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   const isDrawingRef = useRef(false);
@@ -25,20 +32,21 @@ export default function useOnDraw(onDraw: Function): LegacyRef<HTMLCanvasElement
   function setCanvasRef(ref: HTMLCanvasElement) {
     if (!ref) return;
     if (canvasRef.current) {
-      canvasRef.current?.removeEventListener('mousedown', mouseDownListenerRef.current!);
+      canvasRef.current.removeEventListener('mousedown', mouseDownListenerRef.current!);
     }
     canvasRef.current = ref;
     initMouseMoveListener();
     initMouseDownListener();
     initMouseUpListener();
   }
-
   function initMouseMoveListener() {
     const mouseMoveListener = (e: MouseEvent) => {
       if (isDrawingRef.current) {
         const point = computePointInCanvas(e.clientX, e.clientY);
-        const ctx = canvasRef.current!.getContext('2d');
-        if (onDraw) onDraw(ctx, point, prevPointRef.current);
+        const ctx = canvasRef.current?.getContext('2d');
+
+        drawPicker(drawType, prevPointRef.current, point, ctx!, color, drawWidth);
+
         prevPointRef.current = point;
       }
     };
@@ -52,7 +60,7 @@ export default function useOnDraw(onDraw: Function): LegacyRef<HTMLCanvasElement
       isDrawingRef.current = true;
     };
     mouseDownListenerRef.current = mouseDownListener;
-    canvasRef.current?.addEventListener('mousedown', mouseDownListener);
+    canvasRef.current.addEventListener('mousedown', mouseDownListener);
   }
 
   function initMouseUpListener() {
@@ -64,15 +72,19 @@ export default function useOnDraw(onDraw: Function): LegacyRef<HTMLCanvasElement
     window.addEventListener('mouseup', mouseUpListener);
   }
 
-  function computePointInCanvas(clientX: number, clientY: number): object | null {
+  function computePointInCanvas(clientX: number, clientY: number): canvasCoordinates {
     if (canvasRef.current) {
       const boundingRect = canvasRef.current.getBoundingClientRect();
       return {
-        x: String((clientX - boundingRect.left).toFixed(0)),
-        y: String((clientY - boundingRect.top).toFixed(0)),
+        x: Number(String((clientX - boundingRect.left).toFixed(0))),
+        y: Number(String((clientY - boundingRect.top).toFixed(0))),
       };
     } else {
-      return null;
+      console.warn('Point reference to window, canvas ref is null');
+      return {
+        x: clientX,
+        y: clientY,
+      };
     }
   }
 
