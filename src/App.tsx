@@ -6,17 +6,26 @@ import React, { useState } from 'react';
 
 const App: React.FC = () => {
   const [isProjectActive, setIsProjectActive] = useState<boolean>(false);
+  const [currentToolId, setCurrentToolId] = useState<string>('');
 
   function createNewProject() {
     setIsProjectActive(true);
+  }
+
+  function handleToolbarToolClick(e: MouseEvent) {
+    const tool = e.target as HTMLButtonElement;
+    setCurrentToolId(tool.id);
   }
 
   return (
     <div className="app">
       <NavBar createNewProject={createNewProject} />
       <div className="app__creator-wrapper">
-        <ToolBar />
-        <Main isProjectActive={isProjectActive} />
+        <ToolBar handleToolbarToolClick={handleToolbarToolClick} />
+        <Main
+          currentToolId={currentToolId}
+          isProjectActive={isProjectActive}
+        />
       </div>
     </div>
   );
