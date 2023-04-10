@@ -1,4 +1,4 @@
-import { Ref, RefObject, useEffect, useRef } from 'react';
+import { Ref, useEffect, useRef } from 'react';
 import { CanvasCoordinates } from '../../../../globalInterfaces';
 import { RectDrawType } from '../types';
 import { rectDrawPicker } from '../rectDrawPicker';
@@ -12,18 +12,19 @@ export default function useRectDraw(
 
   const isDrawingRef = useRef(false);
 
-  // const mouseMoveListenerRef = useRef<any>(null);
+  const mouseMoveListenerRef = useRef<any>(null);
   const mouseDownListenerRef = useRef<any>(null);
   const mouseUpListenerRef = useRef<any>(null);
 
-  const startPointRef = useRef({ x: 0, y: 0 });
-  const endPointRef = useRef({ x: 0, y: 0 });
+  const startPointRef = useRef<CanvasCoordinates>({ x: 0, y: 0 });
+  const endPointRef = useRef<CanvasCoordinates>({ x: 0, y: 0 });
+  const snapshotRef = useRef<ImageData | undefined>(undefined);
 
   useEffect(() => {
     return () => {
-      // if (mouseMoveListenerRef.current) {
-      //   window.removeEventListener('mousemove', mouseMoveListenerRef.current);
-      // }
+      if (mouseMoveListenerRef.current) {
+        window.removeEventListener('mousemove', mouseMoveListenerRef.current);
+      }
       if (mouseUpListenerRef.current) {
         window.removeEventListener('mousemove', mouseUpListenerRef.current);
       }
@@ -36,35 +37,50 @@ export default function useRectDraw(
       canvasRef.current.removeEventListener('mousedown', mouseDownListenerRef.current!);
     }
     canvasRef.current = ref;
-    // initMouseMoveListener();
+    initMouseMoveListener();
     initMouseDownListener();
     initMouseUpListener();
   }
 
-  // function initMouseMoveListener() {
-  //   const mouseMoveListener = (e: MouseEvent) => {
-  //     if (isDrawingRef.current) {
-  //       const point = computePointInCanvas(e.clientX, e.clientY);
-  //       const ctx = canvasRef.current?.getContext('2d');
+  function initMouseMoveListener() {
+    const mouseMoveListener = (e: MouseEvent) => {
+      if (isDrawingRef.current) {
+        endPointRef.current = computePointInCanvas(e.clientX, e.clientY);
+        const ctx = canvasRef.current?.getContext('2d');
 
-  //       rectDrawPicker(drawType, prevPointRef.current, point, ctx!, color, drawWidth);
+        if (snapshotRef.current) {
+          ctx?.putImageData(snapshotRef.current, 0, 0);
+        }
 
-  //       prevPointRef.current = point;
-  //     }
-  //   };
-  //   mouseMoveListenerRef.current = mouseMoveListener;
-  //   window.addEventListener('mousemove', mouseMoveListener);
-  // }
+        rectDrawPicker(
+          drawType,
+          startPointRef.current,
+          endPointRef.current,
+          ctx!,
+          color,
+          drawWidth
+        );
+      }
+    };
+    mouseMoveListenerRef.current = mouseMoveListener;
+    window.addEventListener('mousemove', mouseMoveListener);
+  }
 
   function initMouseDownListener() {
     if (!canvasRef.current) return;
     const mouseDownListener = (e: MouseEvent) => {
       isDrawingRef.current = true;
-      const point = computePointInCanvas(e.clientX, e.clientY);
-      startPointRef.current = {
-        x: point.x,
-        y: point.y,
-      };
+      startPointRef.current = computePointInCanvas(e.clientX, e.clientY);
+      const ctx = canvasRef.current?.getContext('2d');
+
+      if (canvasRef.current) {
+        snapshotRef.current = ctx?.getImageData(
+          0,
+          0,
+          canvasRef.current.width,
+          canvasRef.current.height
+        );
+      }
     };
 
     mouseDownListenerRef.current = mouseDownListener;
@@ -74,14 +90,14 @@ export default function useRectDraw(
   function initMouseUpListener() {
     const mouseUpListener = (e: MouseEvent) => {
       isDrawingRef.current = false;
-      const point = computePointInCanvas(e.clientX, e.clientY);
-      endPointRef.current = {
-        x: point.x,
-        y: point.y,
-      };
       const ctx = canvasRef.current?.getContext('2d');
 
-      rectDrawPicker(drawType, startPointRef.current, endPointRef.current, ctx!, color, drawWidth);
+      snapshotRef.current = ctx?.getImageData(
+        0,
+        0,
+        canvasRef.current!.width,
+        canvasRef.current!.height
+      );
     };
 
     mouseUpListenerRef.current = mouseUpListener;

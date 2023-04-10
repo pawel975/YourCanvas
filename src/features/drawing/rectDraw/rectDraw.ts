@@ -11,7 +11,7 @@ export function rectDraw(
   ctx.beginPath();
   ctx.lineWidth = width;
   ctx.strokeStyle = color;
-  ctx.rect(start.x, start.y, end.x - start.x, end.y - start.y);
+  ctx.strokeRect(start.x, start.y, end.x - start.x, end.y - start.y);
   ctx.stroke();
 
   ctx.fillStyle = color;
