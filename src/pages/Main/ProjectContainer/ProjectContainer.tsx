@@ -9,24 +9,11 @@ interface ProjectContainerProps {
 }
 
 const ProjectContainer: React.FC<ProjectContainerProps> = ({ currentToolId }) => {
-  // const setCanvasRef = useFreeDraw({ drawType: 'marker', color: '#000000', drawWidth: 10 });
+  // const setCanvasRef = useFreeDraw('marker','#000000', 10);
   let setCanvasRef = useRectDraw('fromCorners', '#000000', 10);
   // let setCanvasRef = useTool(currentToolId);
   const canvasContainer = useRef(null);
   const [canvasSize, setCanvasSize] = useState({ width: '', height: '' });
-
-  // function useTool(toolId: string): any {
-  //   switch (toolId) {
-  //     case 'tool-bar__free-draw':
-  //       return useFreeDraw('marker', '#000000', 5);
-  //       break;
-  //     case 'tool-bar__rect-draw':
-  //       return useRectDraw('fromCorners', '#000000', 10);
-  //       break;
-  //     default:
-  //       return;
-  //   }
-  // }
 
   useEffect(() => {
     setCanvasSize({
