@@ -1,80 +1,54 @@
-import { Ref, useEffect, useRef } from 'react';
+import { Ref } from 'react';
 import { freeDrawPicker } from '../freeDrawPicker';
 import { FreeDrawType } from '../types';
 import { CanvasCoordinates } from '../../../../globalInterfaces';
 
-export default function useFreeDraw(
+export default function startFreeDraw(
   drawType: FreeDrawType,
   color: string,
-  drawWidth: number
-): Ref<HTMLCanvasElement> {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  drawWidth: number,
+  element: any
+): any {
+  let isDrawingRef = false;
 
-  const isDrawingRef = useRef(false);
+  let prevPointRef = null as any;
 
-  const mouseMoveListenerRef = useRef<any>(null);
-  const mouseDownListenerRef = useRef<any>(null);
-  const mouseUpListenerRef = useRef<any>(null);
-
-  const prevPointRef = useRef<any>(null);
-
-  useEffect(() => {
-    return () => {
-      if (mouseMoveListenerRef.current) {
-        window.removeEventListener('mousemove', mouseMoveListenerRef.current);
-      }
-      if (mouseUpListenerRef.current) {
-        window.removeEventListener('mousemove', mouseUpListenerRef.current);
-      }
-    };
-  }, []);
-
-  function setCanvasRef(ref: HTMLCanvasElement) {
-    if (!ref) return;
-    if (canvasRef.current) {
-      canvasRef.current.removeEventListener('mousedown', mouseDownListenerRef.current!);
-    }
-    canvasRef.current = ref;
-    initMouseMoveListener();
-    initMouseDownListener();
-    initMouseUpListener();
-  }
   function initMouseMoveListener() {
     const mouseMoveListener = (e: MouseEvent) => {
-      if (isDrawingRef.current) {
+      console.log('mouseMove free');
+      if (isDrawingRef) {
         const point = computePointInCanvas(e.clientX, e.clientY);
-        const ctx = canvasRef.current?.getContext('2d');
+        const ctx = element?.getContext('2d');
 
-        freeDrawPicker(drawType, prevPointRef.current, point, ctx!, color, drawWidth);
+        freeDrawPicker(drawType, prevPointRef, point, ctx!, color, drawWidth);
 
-        prevPointRef.current = point;
+        prevPointRef = point;
       }
     };
-    mouseMoveListenerRef.current = mouseMoveListener;
     window.addEventListener('mousemove', mouseMoveListener);
   }
 
   function initMouseDownListener() {
-    if (!canvasRef.current) return;
+    if (!element) return;
     const mouseDownListener = () => {
-      isDrawingRef.current = true;
+      console.log('mouseDown free');
+      isDrawingRef = true;
     };
-    mouseDownListenerRef.current = mouseDownListener;
-    canvasRef.current.addEventListener('mousedown', mouseDownListener);
+    element.addEventListener('mousedown', mouseDownListener);
   }
 
   function initMouseUpListener() {
     const mouseUpListener = () => {
-      isDrawingRef.current = false;
-      prevPointRef.current = null;
+      console.log('mouseUp free');
+      isDrawingRef = false;
+      prevPointRef = null;
     };
-    mouseUpListenerRef.current = mouseUpListener;
     window.addEventListener('mouseup', mouseUpListener);
   }
 
   function computePointInCanvas(clientX: number, clientY: number): CanvasCoordinates {
-    if (canvasRef.current) {
-      const boundingRect = canvasRef.current.getBoundingClientRect();
+    if (element) {
+      const boundingRect = element.getBoundingClientRect();
       return {
         x: Number(String((clientX - boundingRect.left).toFixed(0))),
         y: Number(String((clientY - boundingRect.top).toFixed(0))),
@@ -88,5 +62,9 @@ export default function useFreeDraw(
     }
   }
 
-  return setCanvasRef;
+  return {
+    initMouseMoveListener: initMouseMoveListener,
+    initMouseDownListener: initMouseDownListener,
+    initMouseUpListener: initMouseUpListener,
+  };
 }
