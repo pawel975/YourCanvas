@@ -1,2 +1,2 @@
-import useFreeDraw from './hooks/useFreeDraw';
+import useFreeDraw from './hooks/startFreeDraw';
 export { useFreeDraw };
