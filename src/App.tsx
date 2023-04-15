@@ -6,7 +6,7 @@ import React, { useState } from 'react';
 
 const App: React.FC = () => {
   const [isProjectActive, setIsProjectActive] = useState<boolean>(false);
-  const [currentToolId, setCurrentToolId] = useState<string>('');
+  const [currentToolId, setCurrentToolId] = useState<string>('tool-bar__free-draw');
 
   function createNewProject() {
     setIsProjectActive(true);
@@ -21,7 +21,10 @@ const App: React.FC = () => {
     <div className="app">
       <NavBar createNewProject={createNewProject} />
       <div className="app__creator-wrapper">
-        <ToolBar handleToolbarToolClick={handleToolbarToolClick} />
+        <ToolBar
+          currentToolId={currentToolId}
+          handleToolbarToolClick={handleToolbarToolClick}
+        />
         <Main
           currentToolId={currentToolId}
           isProjectActive={isProjectActive}

@@ -1,8 +1,14 @@
 .tool-bar {
+  padding: 0.5rem;
   position: relative;
   left: 0;
   top: 0;
   width: 15rem;
   min-width: fit-content;
   background-color: var(--clr-grey);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: start;
+  gap: 0.5rem;
 }

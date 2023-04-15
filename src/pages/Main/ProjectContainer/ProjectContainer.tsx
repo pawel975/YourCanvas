@@ -15,52 +15,40 @@ const ProjectContainer: React.FC<ProjectContainerProps> = ({ currentToolId }) =>
     mouseMoveHandler: () => {},
     mouseUpHandler: () => {},
   });
-  const setCanvasRef = useRef(null);
-  const canvasContainer = useRef(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const canvasContainerRef = useRef<HTMLDivElement>(null);
   const [canvasSize, setCanvasSize] = useState({ width: '', height: '' });
 
   useEffect(() => {
     setCanvasSize({
-      width: getWindowSize('width', canvasContainer),
-      height: getWindowSize('height', canvasContainer),
+      width: getWindowSize('width', canvasContainerRef),
+      height: getWindowSize('height', canvasContainerRef),
     });
   }, []);
 
-  const handleDown = (e: React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
-    mouseListeners.mouseDownHandler(e);
-  };
-
-  const handleMove = (e: React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
-    mouseListeners.mouseMoveHandler(e);
-  };
-
-  const handleUp = (e: React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
-    mouseListeners.mouseUpHandler(e);
-  };
-
   useEffect(() => {
-    if (setCanvasRef.current) {
+    if (canvasRef.current) {
       if (currentToolId === 'tool-bar__free-draw') {
-        setMouseListeners(getFreeDrawHandlers('marker', '#000000', 10, setCanvasRef.current));
+        setMouseListeners(getFreeDrawHandlers('marker', '#000000', 10, canvasRef.current));
       } else if (currentToolId === 'tool-bar__rect-draw') {
-        setMouseListeners(getRectDrawHandlers('fromCorners', '#000000', 10, setCanvasRef.current));
+        setMouseListeners(getRectDrawHandlers('fromCorners', '#000000', 10, canvasRef.current));
       }
     }
   }, [currentToolId]);
 
   return (
     <div
-      ref={canvasContainer}
+      ref={canvasContainerRef}
       className="project-container"
     >
       <canvas
         className="project-canvas"
         width={canvasSize.width}
         height={canvasSize.height}
-        ref={setCanvasRef}
-        onMouseDown={handleDown}
-        onMouseMove={handleMove}
-        onMouseUp={handleUp}
+        ref={canvasRef}
+        onMouseDown={mouseListeners.mouseDownHandler}
+        onMouseMove={mouseListeners.mouseMoveHandler}
+        onMouseUp={mouseListeners.mouseUpHandler}
       ></canvas>
     </div>
   );
