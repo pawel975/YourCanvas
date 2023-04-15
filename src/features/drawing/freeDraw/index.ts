@@ -1,2 +1,2 @@
-import useFreeDraw from './hooks/startFreeDraw';
-export { useFreeDraw };
+import getFreeDrawHandlers from './getFreeDrawHandlers';
+export { getFreeDrawHandlers };

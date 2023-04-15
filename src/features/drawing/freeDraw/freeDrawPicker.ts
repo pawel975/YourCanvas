@@ -4,7 +4,7 @@ import { CanvasCoordinates } from '../../../globalInterfaces';
 
 export function freeDrawPicker(
   drawType: FreeDrawType,
-  prevPointRef: CanvasCoordinates,
+  prevPoint: CanvasCoordinates | null,
   point: CanvasCoordinates,
   ctx: CanvasRenderingContext2D,
   color: string,
@@ -12,7 +12,7 @@ export function freeDrawPicker(
 ) {
   switch (drawType) {
     case 'marker': {
-      freeDraw(prevPointRef, point, ctx, color, width);
+      freeDraw(prevPoint, point, ctx, color, width);
       break;
     }
     case 'spray': {

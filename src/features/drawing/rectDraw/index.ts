@@ -1,3 +1,3 @@
-import { rectDrawPicker } from './rectDrawPicker';
+import getRectDrawHandlers from './getRectDrawHandlers';
 
-export { rectDrawPicker };
+export { getRectDrawHandlers };

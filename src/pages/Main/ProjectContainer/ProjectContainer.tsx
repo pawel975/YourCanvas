@@ -1,18 +1,19 @@
 import { useEffect, useRef, useState } from 'react';
 import './ProjectContainer.css';
 import getWindowSize from '../../../utils/getWindowSize';
-import startFreeDraw from '../../../features/drawing/freeDraw/hooks/startFreeDraw';
-import startRectDraw from '../../../features/drawing/rectDraw/hooks/startRectDraw';
+import getFreeDrawHandlers from '../../../features/drawing/freeDraw/getFreeDrawHandlers';
+import getRectDrawHandlers from '../../../features/drawing/rectDraw/getRectDrawHandlers';
+import { Eventhandlers } from './interfaces';
 
 interface ProjectContainerProps {
   currentToolId: string;
 }
 
 const ProjectContainer: React.FC<ProjectContainerProps> = ({ currentToolId }) => {
-  const [mouseListeners, setMouseListeners] = useState({
-    mouseDown: null,
-    mouseMove: null,
-    mouseUp: null,
+  const [mouseListeners, setMouseListeners] = useState<Eventhandlers>({
+    mouseDownHandler: () => {},
+    mouseMoveHandler: () => {},
+    mouseUpHandler: () => {},
   });
   const setCanvasRef = useRef(null);
   const canvasContainer = useRef(null);
@@ -25,33 +26,26 @@ const ProjectContainer: React.FC<ProjectContainerProps> = ({ currentToolId }) =>
     });
   }, []);
 
-  const handleDown = (e: any) => {
-    mouseListeners.mouseDown(e);
+  const handleDown = (e: React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
+    mouseListeners.mouseDownHandler(e);
   };
 
-  const handleMove = (e: any) => {
-    mouseListeners.mouseMove(e);
+  const handleMove = (e: React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
+    mouseListeners.mouseMoveHandler(e);
   };
 
-  const handleUp = (e: any) => {
-    mouseListeners.mouseUp(e);
+  const handleUp = (e: React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
+    mouseListeners.mouseUpHandler(e);
   };
 
   useEffect(() => {
     if (setCanvasRef.current) {
-      console.log(setCanvasRef.current);
-      console.log('use effect');
       if (currentToolId === 'tool-bar__free-draw') {
-        setMouseListeners(startFreeDraw('marker', '#000000', 10, setCanvasRef.current));
+        setMouseListeners(getFreeDrawHandlers('marker', '#000000', 10, setCanvasRef.current));
       } else if (currentToolId === 'tool-bar__rect-draw') {
-        setMouseListeners(startRectDraw('fromCorners', '#000000', 10, setCanvasRef.current));
+        setMouseListeners(getRectDrawHandlers('fromCorners', '#000000', 10, setCanvasRef.current));
       }
     }
-    return () => {
-      // setMouseDownListener(null);
-      // setMouseUpListener(null);
-      // setMouseMoveListener(null);
-    };
   }, [currentToolId]);
 
   return (
