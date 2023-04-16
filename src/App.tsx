@@ -3,11 +3,11 @@ import Main from './pages/Main/Main';
 import NavBar from './layouts/NavBar/NavBar';
 import ToolBar from './layouts/ToolBar/ToolBar';
 import React, { useState } from 'react';
-import { CurrentTypeId } from './globalTypes';
+import { CurrentToolId } from './globalTypes';
 
 const App: React.FC = () => {
   const [isProjectActive, setIsProjectActive] = useState<boolean>(false);
-  const [currentToolId, setCurrentToolId] = useState<CurrentTypeId>('tool-bar__marker-draw');
+  const [currentToolId, setCurrentToolId] = useState<CurrentToolId>('marker-draw');
 
   function createNewProject() {
     setIsProjectActive(true);
@@ -15,7 +15,7 @@ const App: React.FC = () => {
 
   function handleToolbarToolClick(e: MouseEvent) {
     const tool = e.target as HTMLButtonElement;
-    setCurrentToolId(tool.id as CurrentTypeId);
+    setCurrentToolId(tool.id as CurrentToolId);
   }
 
   return (

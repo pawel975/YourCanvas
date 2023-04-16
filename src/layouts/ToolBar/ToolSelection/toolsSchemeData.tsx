@@ -2,11 +2,11 @@ import { MarkerIcon, RectangleIcon } from './Tool/icons';
 
 const toolsSchemeData = [
   {
-    id: 'tool-bar__marker-draw',
+    id: 'marker-draw',
     icon: <MarkerIcon />,
   },
   {
-    id: 'tool-bar__rect-draw',
+    id: 'rect-draw',
     icon: <RectangleIcon />,
   },
 ];

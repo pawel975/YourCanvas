@@ -12,7 +12,7 @@ const Tool: React.FC<ToolProps> = ({ id, icon, active, handleToolbarToolClick })
   return (
     <button
       key={id}
-      className={`tool-bar__tool-icon ${active && 'active'}`}
+      className={`tool-icon ${active && 'active'}`}
       onClick={(e) => handleToolbarToolClick(e)}
       id={id}
     >

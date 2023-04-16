@@ -1,6 +1,5 @@
-import Tool from './Tool/Tool';
 import './ToolBar.css';
-import toolsSchemeData from './toolsSchemeData';
+import ToolSelection from './ToolSelection/ToolSelection';
 
 interface ToolBarProps {
   currentToolId: string;
@@ -8,21 +7,14 @@ interface ToolBarProps {
 }
 
 const ToolBar: React.FC<ToolBarProps> = ({ currentToolId, handleToolbarToolClick }) => {
-  const allTools = toolsSchemeData.map((tool) => {
-    const { id, icon } = tool;
-
-    return (
-      <Tool
-        key={id}
-        icon={icon}
-        id={id}
-        active={id === currentToolId}
+  return (
+    <div className="tool-bar">
+      <ToolSelection
+        currentToolId={currentToolId}
         handleToolbarToolClick={handleToolbarToolClick}
       />
-    );
-  });
-
-  return <div className="tool-bar">{allTools}</div>;
+    </div>
+  );
 };
 
 export default ToolBar;

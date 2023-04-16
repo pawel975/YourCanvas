@@ -28,9 +28,9 @@ const ProjectContainer: React.FC<ProjectContainerProps> = ({ currentToolId }) =>
 
   useEffect(() => {
     if (canvasRef.current) {
-      if (currentToolId === 'tool-bar__marker-draw') {
+      if (currentToolId === 'marker-draw') {
         setMouseListeners(getMarkerDrawHandlers('#000000', 10, canvasRef.current));
-      } else if (currentToolId === 'tool-bar__rect-draw') {
+      } else if (currentToolId === 'rect-draw') {
         setMouseListeners(getRectDrawHandlers('#000000', 10, canvasRef.current));
       }
     }
