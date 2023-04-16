@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import './ProjectContainer.css';
 import getWindowSize from '../../../utils/getWindowSize';
-import getFreeDrawHandlers from '../../../features/drawing/freeDraw/getFreeDrawHandlers';
+import getMarkerDrawHandlers from '../../../features/drawing/markerDraw/getMarkerDrawHandlers';
 import getRectDrawHandlers from '../../../features/drawing/rectDraw/getRectDrawHandlers';
 import { Eventhandlers } from './interfaces';
 
@@ -28,8 +28,8 @@ const ProjectContainer: React.FC<ProjectContainerProps> = ({ currentToolId }) =>
 
   useEffect(() => {
     if (canvasRef.current) {
-      if (currentToolId === 'tool-bar__free-draw') {
-        setMouseListeners(getFreeDrawHandlers('#000000', 10, canvasRef.current));
+      if (currentToolId === 'tool-bar__marker-draw') {
+        setMouseListeners(getMarkerDrawHandlers('#000000', 10, canvasRef.current));
       } else if (currentToolId === 'tool-bar__rect-draw') {
         setMouseListeners(getRectDrawHandlers('#000000', 10, canvasRef.current));
       }

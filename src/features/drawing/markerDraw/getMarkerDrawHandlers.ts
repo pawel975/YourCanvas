@@ -1,8 +1,8 @@
 import { CanvasCoordinates } from '../../../globalInterfaces';
 import computePointInCanvas from '../utils/computePointInCanvas';
-import { freeDraw } from './freeDraw';
+import { markerDraw } from './markerDraw';
 
-export default function getFreeDrawHandlers(
+export default function getMarkerDrawHandlers(
   color: string,
   drawWidth: number,
   canvas: HTMLCanvasElement
@@ -21,7 +21,7 @@ export default function getFreeDrawHandlers(
       const ctx = canvas.getContext('2d');
 
       if (ctx) {
-        freeDraw(prevPoint, point, ctx, color, drawWidth);
+        markerDraw(prevPoint, point, ctx, color, drawWidth);
       } else {
         console.error('Invalid canvas context');
       }

@@ -2,7 +2,7 @@ import { MarkerIcon, RectangleIcon } from './Tool/icons';
 
 const toolsSchemeData = [
   {
-    id: 'tool-bar__free-draw',
+    id: 'tool-bar__marker-draw',
     icon: <MarkerIcon />,
   },
   {

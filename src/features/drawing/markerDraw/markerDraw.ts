@@ -1,6 +1,6 @@
 import { CanvasCoordinates } from '../../../globalInterfaces';
 
-export function freeDraw(
+export function markerDraw(
   start: CanvasCoordinates | null,
   end: CanvasCoordinates,
   ctx: CanvasRenderingContext2D,
