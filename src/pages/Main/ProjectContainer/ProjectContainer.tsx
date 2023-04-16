@@ -7,9 +7,10 @@ import { Eventhandlers } from './interfaces';
 
 interface ProjectContainerProps {
   currentToolId: string;
+  pickedColorId: string;
 }
 
-const ProjectContainer: React.FC<ProjectContainerProps> = ({ currentToolId }) => {
+const ProjectContainer: React.FC<ProjectContainerProps> = ({ currentToolId, pickedColorId }) => {
   const [mouseListeners, setMouseListeners] = useState<Eventhandlers>({
     mouseDownHandler: () => {},
     mouseMoveHandler: () => {},
@@ -29,12 +30,12 @@ const ProjectContainer: React.FC<ProjectContainerProps> = ({ currentToolId }) =>
   useEffect(() => {
     if (canvasRef.current) {
       if (currentToolId === 'marker-draw') {
-        setMouseListeners(getMarkerDrawHandlers('#000000', 10, canvasRef.current));
+        setMouseListeners(getMarkerDrawHandlers(pickedColorId, 10, canvasRef.current));
       } else if (currentToolId === 'rect-draw') {
-        setMouseListeners(getRectDrawHandlers('#000000', 10, canvasRef.current));
+        setMouseListeners(getRectDrawHandlers(pickedColorId, 10, canvasRef.current));
       }
     }
-  }, [currentToolId]);
+  }, [currentToolId, pickedColorId]);
 
   return (
     <div

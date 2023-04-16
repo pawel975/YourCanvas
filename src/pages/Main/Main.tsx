@@ -5,12 +5,18 @@ import './Main.css';
 interface MainProps {
   isProjectActive: boolean;
   currentToolId: string;
+  pickedColorId: string;
 }
 
-const Main: React.FC<MainProps> = ({ currentToolId, isProjectActive }) => {
+const Main: React.FC<MainProps> = ({ currentToolId, isProjectActive, pickedColorId }) => {
   return (
     <main className="main">
-      {isProjectActive && <ProjectContainer currentToolId={currentToolId} />}
+      {isProjectActive && (
+        <ProjectContainer
+          currentToolId={currentToolId}
+          pickedColorId={pickedColorId}
+        />
+      )}
     </main>
   );
 };

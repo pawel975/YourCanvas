@@ -8,6 +8,7 @@ import { CurrentToolId } from './globalTypes';
 const App: React.FC = () => {
   const [isProjectActive, setIsProjectActive] = useState<boolean>(false);
   const [currentToolId, setCurrentToolId] = useState<CurrentToolId>('marker-draw');
+  const [pickedColorId, setPickedColorId] = useState<string>('black');
 
   function createNewProject() {
     setIsProjectActive(true);
@@ -18,15 +19,23 @@ const App: React.FC = () => {
     setCurrentToolId(tool.id as CurrentToolId);
   }
 
+  function handleToolbarColorClick(e: MouseEvent) {
+    const color = e.target as HTMLButtonElement;
+    setPickedColorId(color.id);
+  }
+
   return (
     <div className="app">
       <NavBar createNewProject={createNewProject} />
       <div className="app__creator-wrapper">
         <ToolBar
           currentToolId={currentToolId}
+          pickedColorId={pickedColorId}
           handleToolbarToolClick={handleToolbarToolClick}
+          handleToolbarColorClick={handleToolbarColorClick}
         />
         <Main
+          pickedColorId={pickedColorId}
           currentToolId={currentToolId}
           isProjectActive={isProjectActive}
         />

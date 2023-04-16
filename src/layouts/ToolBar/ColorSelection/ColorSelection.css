@@ -1,0 +1,27 @@
+.color-selection {
+  width: 100%;
+  color: var(--clr-dark);
+  border: 0.01rem solid var(--clr-dark);
+  font-size: var(--fs-200);
+  padding: 0.25rem;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+}
+
+.color-selection__picked-color {
+  margin: 0.5rem;
+  width: 2.5rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  box-shadow: 0 0 0 0.01rem black, 0 0 0 0.15rem white, 0 0 0 0.2rem black;
+  border: 0.001rem solid var(--clr-dark);
+}
+
+.color-selection__colors-container {
+  width: fit-content;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}

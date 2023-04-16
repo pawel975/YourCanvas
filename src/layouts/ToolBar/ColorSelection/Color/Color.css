@@ -1,0 +1,6 @@
+.color {
+  width: 1.5rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 0.001rem solid var(--clr-dark);
+}

@@ -1,4 +1,9 @@
 .tool-selection {
+  width: 100%;
+  color: var(--clr-dark);
+  border: 0.01rem solid var(--clr-dark);
+  font-size: var(--fs-200);
+  padding: 0.25rem;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;

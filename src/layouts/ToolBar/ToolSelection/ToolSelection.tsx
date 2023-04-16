@@ -10,7 +10,6 @@ interface ToolSelectionProps {
 const ToolSelection: React.FC<ToolSelectionProps> = ({ currentToolId, handleToolbarToolClick }) => {
   const tools = toolsSchemeData.map((tool) => {
     const { id, icon } = tool;
-    console.log(id, currentToolId);
 
     return (
       <Tool
@@ -23,7 +22,12 @@ const ToolSelection: React.FC<ToolSelectionProps> = ({ currentToolId, handleTool
     );
   });
 
-  return <section className="tool-selection">{tools}</section>;
+  return (
+    <fieldset className="tool-selection">
+      <legend>Tools</legend>
+      {tools}
+    </fieldset>
+  );
 };
 
 export default ToolSelection;
