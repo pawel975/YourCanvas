@@ -1,6 +1,6 @@
 import Tool from './Tool/Tool';
 import './ToolBar.css';
-import toolsSchemeData from './Tool/toolsSchemeData';
+import toolsSchemeData from './toolsSchemeData';
 
 interface ToolBarProps {
   currentToolId: string;

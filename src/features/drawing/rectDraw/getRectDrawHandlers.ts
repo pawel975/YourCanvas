@@ -1,10 +1,8 @@
 import { CanvasCoordinates } from '../../../globalInterfaces';
-import { RectDrawType } from './types';
-import { rectDrawPicker } from './rectDrawPicker';
 import computePointInCanvas from '../utils/computePointInCanvas';
+import { rectDraw } from './rectDraw';
 
 export default function getRectDrawHandlers(
-  drawType: RectDrawType,
   color: string,
   drawWidth: number,
   canvas: HTMLCanvasElement
@@ -26,7 +24,7 @@ export default function getRectDrawHandlers(
 
       if (ctx && snapshot) {
         ctx.putImageData(snapshot, 0, 0);
-        rectDrawPicker(drawType, startPoint, endPoint, ctx, color, drawWidth);
+        rectDraw(startPoint, endPoint, ctx, color, drawWidth);
       } else {
         console.error('Invalid canvas context or snapshot');
       }

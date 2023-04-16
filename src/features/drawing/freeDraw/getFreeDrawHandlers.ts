@@ -1,10 +1,8 @@
-import { freeDrawPicker } from './freeDrawPicker';
-import { FreeDrawType } from './types';
 import { CanvasCoordinates } from '../../../globalInterfaces';
 import computePointInCanvas from '../utils/computePointInCanvas';
+import { freeDraw } from './freeDraw';
 
 export default function getFreeDrawHandlers(
-  drawType: FreeDrawType,
   color: string,
   drawWidth: number,
   canvas: HTMLCanvasElement
@@ -23,7 +21,7 @@ export default function getFreeDrawHandlers(
       const ctx = canvas.getContext('2d');
 
       if (ctx) {
-        freeDrawPicker(drawType, prevPoint, point, ctx, color, drawWidth);
+        freeDraw(prevPoint, point, ctx, color, drawWidth);
       } else {
         console.error('Invalid canvas context');
       }

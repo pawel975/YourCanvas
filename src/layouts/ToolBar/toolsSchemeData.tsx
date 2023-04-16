@@ -1,4 +1,4 @@
-import { MarkerIcon, RectangleIcon } from './icons';
+import { MarkerIcon, RectangleIcon } from './Tool/icons';
 
 const toolsSchemeData = [
   {
