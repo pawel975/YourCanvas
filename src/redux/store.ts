@@ -1,7 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
+import createNewProjectButtonReducer from '../layouts/NavBar/CreateNewProjectMenu/redux/createNewProjectMenuSlice';
 
 const store = configureStore({
-  reducer: {},
+  reducer: {
+    createNewProjectButton: createNewProjectButtonReducer,
+  },
 });
 
 export default store;

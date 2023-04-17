@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import './ProjectContainer.css';
+import './DrawingContainer.css';
 import getWindowSize from '../../../utils/getWindowSize';
 import getMarkerDrawHandlers from '../../../features/drawing/markerDraw/getMarkerDrawHandlers';
 import getRectDrawHandlers from '../../../features/drawing/rectDraw/getRectDrawHandlers';
@@ -10,7 +10,7 @@ interface ProjectContainerProps {
   pickedColorHexId: string;
 }
 
-const ProjectContainer: React.FC<ProjectContainerProps> = ({ currentToolId, pickedColorHexId }) => {
+const DrawingContainer: React.FC<ProjectContainerProps> = ({ currentToolId, pickedColorHexId }) => {
   const [mouseListeners, setMouseListeners] = useState<Eventhandlers>({
     mouseDownHandler: () => {},
     mouseMoveHandler: () => {},
@@ -55,4 +55,4 @@ const ProjectContainer: React.FC<ProjectContainerProps> = ({ currentToolId, pick
   );
 };
 
-export default ProjectContainer;
+export default DrawingContainer;

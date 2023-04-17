@@ -6,13 +6,8 @@ import React, { useState } from 'react';
 import { CurrentToolId } from './globalTypes';
 
 const App: React.FC = () => {
-  const [isProjectActive, setIsProjectActive] = useState<boolean>(false);
   const [currentToolId, setCurrentToolId] = useState<CurrentToolId>('marker-draw');
   const [pickedColorHexId, setPickedColorHexId] = useState<string>('#000000');
-
-  function createNewProject() {
-    setIsProjectActive(true);
-  }
 
   function handleToolbarToolClick(e: MouseEvent) {
     const tool = e.target as HTMLButtonElement;
@@ -27,7 +22,7 @@ const App: React.FC = () => {
 
   return (
     <div className="app">
-      <NavBar createNewProject={createNewProject} />
+      <NavBar />
       <div className="app__creator-wrapper">
         <ToolBar
           currentToolId={currentToolId}
@@ -38,7 +33,6 @@ const App: React.FC = () => {
         <Main
           pickedColorHexId={pickedColorHexId}
           currentToolId={currentToolId}
-          isProjectActive={isProjectActive}
         />
       </div>
     </div>
