@@ -4,13 +4,9 @@ import getWindowSize from '../../../utils/getWindowSize';
 import getMarkerDrawHandlers from '../../../features/drawing/markerDraw/getMarkerDrawHandlers';
 import getRectDrawHandlers from '../../../features/drawing/rectDraw/getRectDrawHandlers';
 import { Eventhandlers } from './interfaces';
+import { useAppSelector } from '../../../redux/hooks';
 
-interface ProjectContainerProps {
-  currentToolId: string;
-  pickedColorHexId: string;
-}
-
-const DrawingContainer: React.FC<ProjectContainerProps> = ({ currentToolId, pickedColorHexId }) => {
+const DrawingContainer: React.FC = () => {
   const [mouseListeners, setMouseListeners] = useState<Eventhandlers>({
     mouseDownHandler: () => {},
     mouseMoveHandler: () => {},
@@ -19,6 +15,9 @@ const DrawingContainer: React.FC<ProjectContainerProps> = ({ currentToolId, pick
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const canvasContainerRef = useRef<HTMLDivElement>(null);
   const [canvasSize, setCanvasSize] = useState({ width: '', height: '' });
+
+  const currentToolId = useAppSelector((state) => state.toolSelection.tool);
+  const currentColorHex = useAppSelector((state) => state.colorSelection.color);
 
   useEffect(() => {
     setCanvasSize({
@@ -29,13 +28,13 @@ const DrawingContainer: React.FC<ProjectContainerProps> = ({ currentToolId, pick
 
   useEffect(() => {
     if (canvasRef.current) {
-      if (currentToolId === 'marker-draw') {
-        setMouseListeners(getMarkerDrawHandlers(pickedColorHexId, 10, canvasRef.current));
-      } else if (currentToolId === 'rect-draw') {
-        setMouseListeners(getRectDrawHandlers(pickedColorHexId, 10, canvasRef.current));
+      if (currentToolId === 'marker') {
+        setMouseListeners(getMarkerDrawHandlers(currentColorHex, 10, canvasRef.current));
+      } else if (currentToolId === 'rect') {
+        setMouseListeners(getRectDrawHandlers(currentColorHex, 10, canvasRef.current));
       }
     }
-  }, [currentToolId, pickedColorHexId]);
+  }, [currentToolId, currentColorHex]);
 
   return (
     <div

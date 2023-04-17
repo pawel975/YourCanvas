@@ -1,13 +1,11 @@
 import Tool from './Tool/Tool';
 import toolsSchemeData from './toolsSchemeData';
 import './ToolSelections.css';
+import { useAppSelector } from '../../../redux/hooks';
 
-interface ToolSelectionProps {
-  currentToolId: string;
-  handleToolbarToolClick: Function;
-}
+const ToolSelection: React.FC = () => {
+  const currentToolId = useAppSelector((state) => state.toolSelection.tool);
 
-const ToolSelection: React.FC<ToolSelectionProps> = ({ currentToolId, handleToolbarToolClick }) => {
   const tools = toolsSchemeData.map((tool) => {
     const { id, icon } = tool;
 
@@ -17,7 +15,6 @@ const ToolSelection: React.FC<ToolSelectionProps> = ({ currentToolId, handleTool
         icon={icon}
         id={id}
         active={id === currentToolId}
-        handleToolbarToolClick={handleToolbarToolClick}
       />
     );
   });

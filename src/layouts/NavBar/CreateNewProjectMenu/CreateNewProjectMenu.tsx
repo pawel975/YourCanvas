@@ -2,7 +2,7 @@ import './CreateNewProjectMenu.css';
 import { Button, Menu, MenuItem } from '@mui/material';
 import { useState } from 'react';
 import { useAppDispatch } from '../../../redux/hooks';
-import { setProjectType } from './redux/createNewProjectMenuSlice';
+import { AvailableProjectTypes, setProjectType } from './redux/createNewProjectMenuSlice';
 
 const CreateNewProjectMenu: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -19,8 +19,9 @@ const CreateNewProjectMenu: React.FC = () => {
   }
 
   function handleNewProjectButtonClick(e: any) {
+    const newProjectOption = e.target as HTMLLIElement;
     setAnchorEl(null);
-    dispatch(setProjectType('drawing'));
+    dispatch(setProjectType(newProjectOption.id as AvailableProjectTypes));
   }
 
   return (
