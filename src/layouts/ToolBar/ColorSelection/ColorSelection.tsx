@@ -3,12 +3,12 @@ import colorCodes from '../../../data/colorCodes.json';
 import Color from './Color/Color';
 
 interface ColorSelectionProps {
-  pickedColorId: string;
+  pickedColorHexId: string;
   handleToolbarColorClick: Function;
 }
 
 const ColorSelection: React.FC<ColorSelectionProps> = ({
-  pickedColorId,
+  pickedColorHexId,
   handleToolbarColorClick,
 }) => {
   const colors = colorCodes.map((color) => {
@@ -16,7 +16,7 @@ const ColorSelection: React.FC<ColorSelectionProps> = ({
       <Color
         key={color.id}
         hexCode={color.hex}
-        id={color.id}
+        id={color.hex}
         handleToolbarColorClick={handleToolbarColorClick}
       />
     );
@@ -25,7 +25,7 @@ const ColorSelection: React.FC<ColorSelectionProps> = ({
     <fieldset className="color-selection">
       <legend>Colors</legend>
       <div
-        style={{ backgroundColor: pickedColorId }}
+        style={{ backgroundColor: pickedColorHexId }}
         className="color-selection__picked-color"
       ></div>
       <div className="color-selection__colors-container">{colors}</div>

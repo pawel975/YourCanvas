@@ -4,14 +4,14 @@ import ToolSelection from './ToolSelection/ToolSelection';
 
 interface ToolBarProps {
   currentToolId: string;
-  pickedColorId: string;
+  pickedColorHexId: string;
   handleToolbarToolClick: Function;
   handleToolbarColorClick: Function;
 }
 
 const ToolBar: React.FC<ToolBarProps> = ({
   currentToolId,
-  pickedColorId,
+  pickedColorHexId,
   handleToolbarToolClick,
   handleToolbarColorClick,
 }) => {
@@ -22,7 +22,7 @@ const ToolBar: React.FC<ToolBarProps> = ({
         handleToolbarToolClick={handleToolbarToolClick}
       />
       <ColorSelection
-        pickedColorId={pickedColorId}
+        pickedColorHexId={pickedColorHexId}
         handleToolbarColorClick={handleToolbarColorClick}
       />
     </div>
