@@ -2,6 +2,7 @@ import React from 'react';
 import DrawingContainer from './DrawingContainer/DrawingContainer';
 import './Main.css';
 import { useAppSelector } from '../../redux/hooks';
+import BlankProject from './BlankProject/BlankProject';
 
 const Main: React.FC = () => {
   const projectType = useAppSelector((state) => state.createNewProjectButton.projectType);
@@ -9,7 +10,7 @@ const Main: React.FC = () => {
   function renderProject() {
     switch (projectType) {
       case 'blank':
-        return <h1>Blank project</h1>;
+        return <BlankProject />;
       case 'drawing':
         return <DrawingContainer />;
       default:
