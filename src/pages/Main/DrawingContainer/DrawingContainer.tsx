@@ -18,6 +18,7 @@ const DrawingContainer: React.FC = () => {
 
   const currentToolId = useAppSelector((state) => state.toolSelection.tool);
   const currentColorHex = useAppSelector((state) => state.colorSelection.color);
+  const currentToolSize = useAppSelector((state) => state.toolSizeSelection.size);
 
   useEffect(() => {
     setCanvasSize({
@@ -29,12 +30,14 @@ const DrawingContainer: React.FC = () => {
   useEffect(() => {
     if (canvasRef.current) {
       if (currentToolId === 'marker') {
-        setMouseListeners(getMarkerDrawHandlers(currentColorHex, 10, canvasRef.current));
+        setMouseListeners(
+          getMarkerDrawHandlers(currentColorHex, currentToolSize, canvasRef.current)
+        );
       } else if (currentToolId === 'rect') {
-        setMouseListeners(getRectDrawHandlers(currentColorHex, 10, canvasRef.current));
+        setMouseListeners(getRectDrawHandlers(currentColorHex, currentToolSize, canvasRef.current));
       }
     }
-  }, [currentToolId, currentColorHex]);
+  }, [currentToolId, currentColorHex, currentToolSize]);
 
   return (
     <div

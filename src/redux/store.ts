@@ -2,12 +2,13 @@ import { configureStore } from '@reduxjs/toolkit';
 import createNewProjectButtonReducer from '../layouts/NavBar/CreateNewProjectMenu/redux/createNewProjectMenuSlice';
 import toolSelectionReducer from '../layouts/ToolBar/ToolSelection/redux/toolSelectionSlice';
 import colorSelectionReducer from '../layouts/ToolBar/ColorSelection/redux/colorSelectionSlice';
-
+import toolSizeSelectionReducer from '../layouts/ToolBar/ToolSizeSelection/redux/toolSizeSelectionSlice';
 const store = configureStore({
   reducer: {
     createNewProjectButton: createNewProjectButtonReducer,
     toolSelection: toolSelectionReducer,
     colorSelection: colorSelectionReducer,
+    toolSizeSelection: toolSizeSelectionReducer,
   },
 });
 
