@@ -5,13 +5,13 @@
   left: 0;
   top: 0;
   width: 15rem;
-  background-color: var(--clr-grey);
+  background-color: var(--clr-bg-light);
   display: flex;
   flex-direction: column;
   align-items: start;
   gap: 1rem;
   flex-shrink: 0;
-  animation: toolBarAppear 1s;
+  animation: toolBarAppear 0.5s;
 }
 
 @keyframes toolBarAppear {
