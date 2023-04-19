@@ -5,3 +5,7 @@
   height: calc(100% - 2rem);
   border: 0.1rem solid var(--clr-grey);
 }
+
+.project-canvas {
+  image-rendering: pixelated;
+}

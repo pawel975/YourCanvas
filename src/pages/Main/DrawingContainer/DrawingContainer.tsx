@@ -5,6 +5,7 @@ import getMarkerDrawHandlers from '../../../features/drawing/markerDraw/getMarke
 import getRectDrawHandlers from '../../../features/drawing/rectDraw/getRectDrawHandlers';
 import { Eventhandlers } from './interfaces';
 import { useAppSelector } from '../../../redux/hooks';
+import { getSprayDrawHandlers } from '../../../features/drawing/sprayDraw';
 
 const DrawingContainer: React.FC = () => {
   const [mouseListeners, setMouseListeners] = useState<Eventhandlers>({
@@ -29,12 +30,22 @@ const DrawingContainer: React.FC = () => {
 
   useEffect(() => {
     if (canvasRef.current) {
-      if (currentToolId === 'marker') {
-        setMouseListeners(
-          getMarkerDrawHandlers(currentColorHex, currentToolSize, canvasRef.current)
-        );
-      } else if (currentToolId === 'rect') {
-        setMouseListeners(getRectDrawHandlers(currentColorHex, currentToolSize, canvasRef.current));
+      switch (currentToolId) {
+        case 'marker':
+          setMouseListeners(
+            getMarkerDrawHandlers(currentColorHex, currentToolSize, canvasRef.current)
+          );
+          break;
+        case 'rect':
+          setMouseListeners(
+            getRectDrawHandlers(currentColorHex, currentToolSize, canvasRef.current)
+          );
+          break;
+        case 'spray':
+          setMouseListeners(
+            getSprayDrawHandlers(currentColorHex, currentToolSize, canvasRef.current)
+          );
+          break;
       }
     }
   }, [currentToolId, currentColorHex, currentToolSize]);

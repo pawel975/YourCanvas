@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-export type AvailableToolId = string & ('marker' | 'rect');
+export type AvailableToolId = string & ('marker' | 'rect' | 'spray');
 
 interface ToolSelection {
   tool: AvailableToolId;
