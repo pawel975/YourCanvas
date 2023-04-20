@@ -1,4 +1,5 @@
-import { CanvasCoordinates } from '../../../globalInterfaces';
+import ERRORS from '../../../data/errors';
+import { CanvasCoordinates, Eventhandlers } from '../../../globalInterfaces';
 import computePointInCanvas from '../utils/computePointInCanvas';
 import { rectDraw } from './rectDraw';
 
@@ -6,50 +7,59 @@ export default function getRectDrawHandlers(
   color: string,
   drawWidth: number,
   canvas: HTMLCanvasElement
-): {
-  mouseDownHandler: (e: React.MouseEvent<HTMLCanvasElement>) => void;
-  mouseMoveHandler: (e: React.MouseEvent<HTMLCanvasElement>) => void;
-  mouseUpHandler: (e: React.MouseEvent<HTMLCanvasElement>) => void;
-} {
-  let isDrawing = false;
+): Eventhandlers {
+  let isDrawing: boolean = false;
 
   let startPoint: CanvasCoordinates = { x: 0, y: 0 };
   let endPoint: CanvasCoordinates = { x: 0, y: 0 };
   let snapshot: ImageData | undefined = undefined;
 
-  const mouseMoveHandler = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    if (isDrawing) {
-      endPoint = computePointInCanvas(canvas, e.clientX, e.clientY);
-      const ctx = canvas.getContext('2d');
-
-      if (ctx && snapshot) {
-        ctx.putImageData(snapshot, 0, 0);
-        rectDraw(startPoint, endPoint, ctx, color, drawWidth);
-      } else {
-        console.error('Invalid canvas context or snapshot');
-      }
-    }
-  };
+  const ctx = canvas.getContext('2d');
 
   const mouseDownHandler = (e: React.MouseEvent<HTMLCanvasElement>) => {
     isDrawing = true;
     startPoint = computePointInCanvas(canvas, e.clientX, e.clientY);
-    const ctx = canvas.getContext('2d');
 
-    if (ctx && canvas) {
-      snapshot = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    } else {
-      console.error('Invalid canvas context or canvas canvas');
+    if (!ctx) {
+      const error = new Error('Invalid canvas context');
+      error.name = ERRORS.INVALID_CONTEXT;
+      throw error;
+    }
+
+    snapshot = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  };
+
+  const mouseMoveHandler = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    if (isDrawing) {
+      endPoint = computePointInCanvas(canvas, e.clientX, e.clientY);
+
+      if (!ctx) {
+        const error = new Error('Invalid canvas context');
+        error.name = ERRORS.INVALID_CONTEXT;
+        throw error;
+      }
+
+      if (!snapshot) {
+        const error = new Error('Invalid snapshot - snapshot should contain Image Data');
+        error.name = ERRORS.INVALID_SNAPSHOT;
+        throw error;
+      }
+
+      ctx.putImageData(snapshot, 0, 0);
+      rectDraw(startPoint, endPoint, ctx, color, drawWidth);
     }
   };
 
   const mouseUpHandler = () => {
     isDrawing = false;
-    const ctx = canvas.getContext('2d');
 
-    if (ctx) {
-      snapshot = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    if (!ctx) {
+      const error = new Error('Invalid canvas context');
+      error.name = ERRORS.INVALID_CONTEXT;
+      throw error;
     }
+
+    snapshot = ctx.getImageData(0, 0, canvas.width, canvas.height);
   };
 
   return {

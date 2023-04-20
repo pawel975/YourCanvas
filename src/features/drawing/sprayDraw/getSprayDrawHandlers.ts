@@ -1,3 +1,5 @@
+import ERRORS from '../../../data/errors';
+import { Eventhandlers } from '../../../globalInterfaces';
 import computePointInCanvas from '../utils/computePointInCanvas';
 import { sprayDraw } from './sprayDraw';
 
@@ -5,11 +7,7 @@ export default function getMarkerDrawHandlers(
   color: string,
   drawWidth: number,
   canvas: HTMLCanvasElement
-): {
-  mouseDownHandler: () => void;
-  mouseMoveHandler: (e: React.MouseEvent<HTMLCanvasElement>) => void;
-  mouseUpHandler: () => void;
-} {
+): Eventhandlers {
   let isDrawing: boolean = false;
 
   const mouseDownHandler = () => {
@@ -17,15 +15,21 @@ export default function getMarkerDrawHandlers(
   };
 
   const mouseMoveHandler = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    if (isDrawing) {
-      const point = computePointInCanvas(canvas, e.clientX, e.clientY);
-      const ctx = canvas.getContext('2d');
+    try {
+      if (isDrawing) {
+        const point = computePointInCanvas(canvas, e.clientX, e.clientY);
+        const ctx = canvas.getContext('2d');
 
-      if (ctx) {
+        if (!ctx) {
+          const error = new Error('Invalid canvas context');
+          error.name = ERRORS.INVALID_CONTEXT;
+          throw error;
+        }
+
         sprayDraw(point, ctx, color, drawWidth);
-      } else {
-        console.error('Invalid canvas context');
       }
+    } catch (error) {
+      console.error(error);
     }
   };
 

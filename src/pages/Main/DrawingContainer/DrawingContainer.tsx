@@ -3,7 +3,7 @@ import './DrawingContainer.css';
 import getWindowSize from '../../../utils/getWindowSize';
 import getMarkerDrawHandlers from '../../../features/drawing/markerDraw/getMarkerDrawHandlers';
 import getRectDrawHandlers from '../../../features/drawing/rectDraw/getRectDrawHandlers';
-import { Eventhandlers } from './interfaces';
+import { Eventhandlers } from '../../../globalInterfaces';
 import { useAppSelector } from '../../../redux/hooks';
 import { getSprayDrawHandlers } from '../../../features/drawing/sprayDraw';
 
