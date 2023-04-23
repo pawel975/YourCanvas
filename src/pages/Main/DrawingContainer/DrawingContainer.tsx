@@ -7,6 +7,7 @@ import { Eventhandlers } from '../../../globalInterfaces';
 import { useAppSelector } from '../../../redux/hooks';
 import { getSprayDrawHandlers } from '../../../features/drawing/sprayDraw';
 import ERRORS from '../../../data/errors';
+import { Alert } from '@mui/material';
 
 interface CanvasSize {
   width: string;
@@ -64,8 +65,9 @@ const DrawingContainer: React.FC = () => {
   return (
     <>
       {isError ? (
-        // Create Error message component template instead h1
-        <p>Error</p>
+        <Alert severity="error">
+          Something went wrong, cannot load the canvas, reload the page.
+        </Alert>
       ) : (
         <div
           ref={canvasContainerRef}
