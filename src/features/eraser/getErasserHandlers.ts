@@ -1,5 +1,5 @@
 import ERRORS from '../../data/errors';
-import { CanvasCoordinates, Eventhandlers } from '../../globalInterfaces';
+import { Eventhandlers } from '../../globalInterfaces';
 import computePointInCanvas from '../utils/computePointInCanvas';
 import { eraser } from './eraser';
 
@@ -8,8 +8,6 @@ export default function getErasserHandlers(
   canvas: HTMLCanvasElement
 ): Eventhandlers {
   let isErasing: boolean = false;
-
-  let prevPoint: CanvasCoordinates | null = null;
 
   const mouseDownHandler = () => {
     isErasing = true;
@@ -27,8 +25,7 @@ export default function getErasserHandlers(
           throw error;
         }
 
-        eraser(prevPoint, point, ctx, rubberSize);
-        prevPoint = point;
+        eraser(point, ctx, rubberSize);
       }
     } catch (error) {
       console.error(error);
@@ -37,7 +34,6 @@ export default function getErasserHandlers(
 
   const mouseUpHandler = () => {
     isErasing = false;
-    prevPoint = null;
   };
 
   return {

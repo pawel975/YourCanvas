@@ -8,8 +8,8 @@ import { useAppSelector } from '../../../redux/hooks';
 import { getSprayDrawHandlers } from '../../../features/drawing/sprayDraw';
 import ERRORS from '../../../data/errors';
 import { Alert } from '@mui/material';
-import getRubberHandlers from '../../../features/rubber/getErasserHandlers';
 import toolsSchemeData from '../../../layouts/ToolBar/ToolSelection/toolsSchemeData';
+import getErasserHandlers from '../../../features/eraser/getErasserHandlers';
 
 interface CanvasSize {
   width: string;
@@ -55,7 +55,7 @@ const DrawingContainer: React.FC = () => {
         marker: getMarkerDrawHandlers(currentColorHex, currentToolSize, canvasRef.current),
         rect: getRectDrawHandlers(currentColorHex, currentToolSize, canvasRef.current),
         spray: getSprayDrawHandlers(currentColorHex, currentToolSize, canvasRef.current),
-        rubber: getRubberHandlers(currentToolSize, canvasRef.current),
+        eraser: getErasserHandlers(currentToolSize, canvasRef.current),
       };
 
       // Check if tool data is present if adding new handlers is the case.
@@ -67,7 +67,12 @@ const DrawingContainer: React.FC = () => {
         throw error;
       }
 
-      setMouseListeners(toolHandlers[currentToolId]);
+      if (toolHandlers[currentToolId]) setMouseListeners(toolHandlers[currentToolId]);
+      else {
+        const error = new Error(`Tool handlers for '${currentToolId}' doesn't exist.`);
+        error.name = ERRORS.INVALID_TOOL_ID;
+        throw error;
+      }
     } catch (error) {
       console.error(error);
       setIsError(true);
