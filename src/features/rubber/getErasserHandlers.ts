@@ -1,24 +1,23 @@
-import ERRORS from '../../../data/errors';
-import { CanvasCoordinates, Eventhandlers } from '../../../globalInterfaces';
-import computePointInCanvas from '../../utils/computePointInCanvas';
-import { markerDraw } from './markerDraw';
+import ERRORS from '../../data/errors';
+import { CanvasCoordinates, Eventhandlers } from '../../globalInterfaces';
+import computePointInCanvas from '../utils/computePointInCanvas';
+import { eraser } from './eraser';
 
-export default function getMarkerDrawHandlers(
-  color: string,
-  drawWidth: number,
+export default function getErasserHandlers(
+  rubberSize: number,
   canvas: HTMLCanvasElement
 ): Eventhandlers {
-  let isDrawing: boolean = false;
+  let isErasing: boolean = false;
 
   let prevPoint: CanvasCoordinates | null = null;
 
   const mouseDownHandler = () => {
-    isDrawing = true;
+    isErasing = true;
   };
 
   const mouseMoveHandler = (e: React.MouseEvent<HTMLCanvasElement>) => {
     try {
-      if (isDrawing) {
+      if (isErasing) {
         const point = computePointInCanvas(canvas, e.clientX, e.clientY);
         const ctx = canvas.getContext('2d');
 
@@ -28,7 +27,7 @@ export default function getMarkerDrawHandlers(
           throw error;
         }
 
-        markerDraw(prevPoint, point, ctx, color, drawWidth);
+        eraser(prevPoint, point, ctx, rubberSize);
         prevPoint = point;
       }
     } catch (error) {
@@ -37,7 +36,7 @@ export default function getMarkerDrawHandlers(
   };
 
   const mouseUpHandler = () => {
-    isDrawing = false;
+    isErasing = false;
     prevPoint = null;
   };
 

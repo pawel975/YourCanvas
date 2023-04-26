@@ -1,6 +1,6 @@
 import ERRORS from '../../../data/errors';
 import { Eventhandlers } from '../../../globalInterfaces';
-import computePointInCanvas from '../utils/computePointInCanvas';
+import computePointInCanvas from '../../utils/computePointInCanvas';
 import { sprayDraw } from './sprayDraw';
 
 export default function getMarkerDrawHandlers(

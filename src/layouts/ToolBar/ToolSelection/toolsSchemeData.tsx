@@ -1,6 +1,12 @@
-import { MarkerIcon, RectangleIcon, SprayIcon } from './Tool/icons';
+import { EraserIcon, MarkerIcon, RectangleIcon, SprayIcon } from './Tool/icons';
 
-const toolsSchemeData = [
+interface toolsSchemaDataItem {
+  id: string;
+  icon: React.ReactNode;
+  sizesInPx: number[];
+}
+
+const toolsSchemeData: toolsSchemaDataItem[] = [
   {
     id: 'marker',
     icon: <MarkerIcon />,
@@ -15,6 +21,11 @@ const toolsSchemeData = [
     id: 'spray',
     icon: <SprayIcon />,
     sizesInPx: [6, 10, 14, 18, 22, 26, 30, 40],
+  },
+  {
+    id: 'eraser',
+    icon: <EraserIcon />,
+    sizesInPx: [1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 24, 28, 32, 36, 40, 48, 60],
   },
 ];
 

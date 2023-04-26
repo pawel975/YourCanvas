@@ -1,4 +1,4 @@
-import { CanvasCoordinates } from '../../../globalInterfaces';
+import { CanvasCoordinates } from '../../globalInterfaces';
 
 export default function computePointInCanvas(
   canvas: HTMLCanvasElement,

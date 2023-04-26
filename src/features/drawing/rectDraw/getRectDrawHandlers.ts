@@ -1,6 +1,6 @@
 import ERRORS from '../../../data/errors';
 import { CanvasCoordinates, Eventhandlers } from '../../../globalInterfaces';
-import computePointInCanvas from '../utils/computePointInCanvas';
+import computePointInCanvas from '../../utils/computePointInCanvas';
 import { rectDraw } from './rectDraw';
 
 export default function getRectDrawHandlers(
