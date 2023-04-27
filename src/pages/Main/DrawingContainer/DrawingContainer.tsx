@@ -1,15 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
 import './DrawingContainer.css';
 import getWindowSize from '../../../utils/getWindowSize';
-import getMarkerDrawHandlers from '../../../features/drawing/markerDraw/getMarkerDrawHandlers';
-import getRectDrawHandlers from '../../../features/drawing/rectDraw/getRectDrawHandlers';
+import { getMarkerDrawHandlers } from '../../../features/drawing/markerDraw';
+import { getRectDrawHandlers } from '../../../features/drawing/rectDraw';
+import { getErasserHandlers } from '../../../features/eraser';
+import { getSprayDrawHandlers } from '../../../features/drawing/sprayDraw';
 import { Eventhandlers } from '../../../globalInterfaces';
 import { useAppSelector } from '../../../redux/hooks';
-import { getSprayDrawHandlers } from '../../../features/drawing/sprayDraw';
 import ERRORS from '../../../data/errors';
 import { Alert } from '@mui/material';
 import toolsSchemeData from '../../../layouts/ToolBar/toolsSchemeData';
-import getErasserHandlers from '../../../features/eraser/getErasserHandlers';
 
 interface CanvasSize {
   width: string;

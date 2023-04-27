@@ -1,4 +1,10 @@
-import { EraserIcon, MarkerIcon, RectangleIcon, SprayIcon } from './ToolSelection/Tool/icons';
+import {
+  CaptureAreaIcon,
+  EraserIcon,
+  MarkerIcon,
+  RectangleIcon,
+  SprayIcon,
+} from './ToolSelection/Tool/icons';
 
 interface toolsSchemaDataItem {
   id: string;
@@ -26,6 +32,11 @@ const toolsSchemeData: toolsSchemaDataItem[] = [
     id: 'eraser',
     icon: <EraserIcon />,
     sizesInPx: [6, 8, 10, 12, 14, 16, 18, 20, 24, 28, 32, 36, 40, 48, 60],
+  },
+  {
+    id: 'capture-area',
+    icon: <CaptureAreaIcon />,
+    sizesInPx: [3],
   },
 ];
 
