@@ -1,5 +1,5 @@
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
-import toolsSchemeData from '../ToolSelection/toolsSchemeData';
+import toolsSchemeData from '../toolsSchemeData';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { setToolSize } from './redux/toolSizeSelectionSlice';
 import { useEffect } from 'react';

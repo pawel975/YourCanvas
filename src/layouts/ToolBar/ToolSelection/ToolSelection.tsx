@@ -1,5 +1,5 @@
 import Tool from './Tool/Tool';
-import toolsSchemeData from './toolsSchemeData';
+import toolsSchemeData from '../toolsSchemeData';
 import './ToolSelections.css';
 import { useAppSelector } from '../../../redux/hooks';
 

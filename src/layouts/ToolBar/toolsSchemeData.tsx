@@ -1,4 +1,4 @@
-import { EraserIcon, MarkerIcon, RectangleIcon, SprayIcon } from './Tool/icons';
+import { EraserIcon, MarkerIcon, RectangleIcon, SprayIcon } from './ToolSelection/Tool/icons';
 
 interface toolsSchemaDataItem {
   id: string;

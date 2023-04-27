@@ -8,7 +8,7 @@ import { useAppSelector } from '../../../redux/hooks';
 import { getSprayDrawHandlers } from '../../../features/drawing/sprayDraw';
 import ERRORS from '../../../data/errors';
 import { Alert } from '@mui/material';
-import toolsSchemeData from '../../../layouts/ToolBar/ToolSelection/toolsSchemeData';
+import toolsSchemeData from '../../../layouts/ToolBar/toolsSchemeData';
 import getErasserHandlers from '../../../features/eraser/getErasserHandlers';
 
 interface CanvasSize {
