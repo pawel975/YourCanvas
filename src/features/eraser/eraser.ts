@@ -7,6 +7,6 @@ export function eraser(
 ) {
   ctx.fillStyle = '#FFFFFF';
   ctx.beginPath();
-  ctx.rect(start!.x, start!.y, rubberSize, rubberSize);
+  ctx.rect(start!.x - rubberSize / 2, start!.y - rubberSize / 2, rubberSize, rubberSize);
   ctx.fill();
 }
