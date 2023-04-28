@@ -1,7 +1,7 @@
 import { CanvasCoordinates } from '../../globalInterfaces';
 
 export function captureArea(
-  start: CanvasCoordinates,
+  start: CanvasCoordinates | null,
   end: CanvasCoordinates,
   ctx: CanvasRenderingContext2D
 ) {

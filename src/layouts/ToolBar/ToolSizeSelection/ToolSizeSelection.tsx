@@ -6,7 +6,6 @@ import { useEffect } from 'react';
 
 const ToolSizeSelection: React.FC = () => {
   const dispatch = useAppDispatch();
-  const currentToolSize = useAppSelector((state) => state.toolSizeSelection.size);
   const currentToolId = useAppSelector((state) => state.toolSelection.tool);
   const toolSizes = toolsSchemeData.find((tool) => tool.id === currentToolId)?.sizesInPx;
 
@@ -39,7 +38,7 @@ const ToolSizeSelection: React.FC = () => {
       <Select
         labelId="tool-size-selection-label"
         id="tool-size-selection"
-        value={currentToolSize as unknown as string}
+        value={toolSizes![0] as unknown as string}
         label="Tool Size"
         onChange={handleSizeOptionChange}
       >

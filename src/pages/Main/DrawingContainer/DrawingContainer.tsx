@@ -5,6 +5,7 @@ import { getMarkerDrawHandlers } from '../../../features/drawing/markerDraw';
 import { getRectDrawHandlers } from '../../../features/drawing/rectDraw';
 import { getErasserHandlers } from '../../../features/eraser';
 import { getSprayDrawHandlers } from '../../../features/drawing/sprayDraw';
+import { getCaptureAreaHandlers } from '../../../features/captureArea';
 import { Eventhandlers } from '../../../globalInterfaces';
 import { useAppSelector } from '../../../redux/hooks';
 import ERRORS from '../../../data/errors';
@@ -56,6 +57,7 @@ const DrawingContainer: React.FC = () => {
         rect: getRectDrawHandlers(currentColorHex, currentToolSize, canvasRef.current),
         spray: getSprayDrawHandlers(currentColorHex, currentToolSize, canvasRef.current),
         eraser: getErasserHandlers(currentToolSize, canvasRef.current),
+        captureArea: getCaptureAreaHandlers(canvasRef.current),
       };
 
       // Check if tool data is present if adding new handlers is the case.

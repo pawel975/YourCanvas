@@ -9,7 +9,7 @@ import {
 interface toolsSchemaDataItem {
   id: string;
   icon: React.ReactNode;
-  sizesInPx: number[];
+  sizesInPx?: number[];
 }
 
 const toolsSchemeData: toolsSchemaDataItem[] = [
@@ -34,9 +34,8 @@ const toolsSchemeData: toolsSchemaDataItem[] = [
     sizesInPx: [6, 8, 10, 12, 14, 16, 18, 20, 24, 28, 32, 36, 40, 48, 60],
   },
   {
-    id: 'capture-area',
+    id: 'captureArea',
     icon: <CaptureAreaIcon />,
-    sizesInPx: [3],
   },
 ];
 
