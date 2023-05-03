@@ -26,6 +26,7 @@ const DrawingContainer: React.FC = () => {
     mouseDownHandler: () => {},
     mouseMoveHandler: () => {},
     mouseUpHandler: () => {},
+    onPasteHandler: () => {},
   });
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const canvasContainerRef = useRef<HTMLDivElement>(null);
@@ -81,6 +82,16 @@ const DrawingContainer: React.FC = () => {
     }
   }, [currentToolId, currentColorHex, currentToolSize]);
 
+  useEffect(() => {
+    // Add the onPaste event listener to the document
+    document.addEventListener('paste', mouseListeners.onPasteHandler!);
+
+    // Clean up the event listener on unmount
+    return () => {
+      document.removeEventListener('paste', mouseListeners.onPasteHandler!);
+    };
+  }, [mouseListeners.onPasteHandler]);
+
   return (
     <>
       {isError ? (
@@ -100,6 +111,7 @@ const DrawingContainer: React.FC = () => {
             onMouseDown={mouseListeners.mouseDownHandler}
             onMouseMove={mouseListeners.mouseMoveHandler}
             onMouseUp={mouseListeners.mouseUpHandler}
+            onPaste={mouseListeners.onPasteHandler}
           ></canvas>
         </div>
       )}

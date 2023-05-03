@@ -6,22 +6,28 @@ import { captureArea } from './captureArea';
 export default function getCaptureAreaHandlers(canvas: HTMLCanvasElement): Eventhandlers {
   let isCapturing: boolean = false;
 
+  let areaWidth: number | null;
+  let areaHeight: number | null;
+
   let startPoint: CanvasCoordinates = { x: 0, y: 0 };
   let endPoint: CanvasCoordinates = { x: 0, y: 0 };
   let snapshot: ImageData | undefined = undefined;
 
   const ctx = canvas.getContext('2d');
 
+  if (!ctx) {
+    const error = new Error('Invalid canvas context');
+    error.name = ERRORS.INVALID_CONTEXT;
+    throw error;
+  }
+
   const mouseDownHandler = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    areaWidth = null;
+    areaHeight = null;
     isCapturing = true;
     startPoint = computePointInCanvas(canvas, e.clientX, e.clientY);
 
-    if (!ctx) {
-      const error = new Error('Invalid canvas context');
-      error.name = ERRORS.INVALID_CONTEXT;
-      throw error;
-    }
-
+    // Gets canvas state before capturing
     snapshot = ctx.getImageData(0, 0, canvas.width, canvas.height);
   };
 
@@ -29,18 +35,13 @@ export default function getCaptureAreaHandlers(canvas: HTMLCanvasElement): Event
     if (isCapturing) {
       endPoint = computePointInCanvas(canvas, e.clientX, e.clientY);
 
-      if (!ctx) {
-        const error = new Error('Invalid canvas context');
-        error.name = ERRORS.INVALID_CONTEXT;
-        throw error;
-      }
-
       if (!snapshot) {
         const error = new Error('Invalid snapshot - snapshot should contain Image Data');
         error.name = ERRORS.INVALID_SNAPSHOT;
         throw error;
       }
 
+      // Put canvas state before drawing
       ctx.putImageData(snapshot, 0, 0);
       captureArea(startPoint, endPoint, ctx);
     }
@@ -49,18 +50,86 @@ export default function getCaptureAreaHandlers(canvas: HTMLCanvasElement): Event
   const mouseUpHandler = () => {
     isCapturing = false;
 
-    if (!ctx) {
-      const error = new Error('Invalid canvas context');
-      error.name = ERRORS.INVALID_CONTEXT;
+    const sectionWidth = Math.abs(endPoint.x - startPoint.x);
+    const sectionHeight = Math.abs(endPoint.y - startPoint.y);
+    const section = document.createElement('canvas');
+    areaWidth = sectionWidth;
+    areaHeight = sectionHeight;
+    const sectionCtx = section.getContext('2d');
+
+    const imageData = ctx.getImageData(
+      startPoint.x < endPoint.x ? startPoint.x : endPoint.x,
+      startPoint.y < endPoint.y ? startPoint.y : endPoint.y,
+      areaWidth,
+      areaHeight
+    );
+
+    sectionCtx?.putImageData(imageData, 0, 0);
+
+    const capturedAreaImage = new Image();
+    capturedAreaImage.src = section.toDataURL();
+
+    function dataURItoBlob(dataURI: any) {
+      var byteString = atob(dataURI.split(',')[1]);
+      var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+      var ab = new ArrayBuffer(byteString.length);
+      var ia = new Uint8Array(ab);
+      for (var i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+      }
+      return new Blob([ab], { type: mimeString });
+    }
+
+    const imageBlob = dataURItoBlob(capturedAreaImage.src);
+
+    navigator.clipboard.write([
+      new ClipboardItem({
+        'image/png': imageBlob,
+      }),
+    ]);
+  };
+
+  const onPasteHandler = (event: any) => {
+    if (!areaWidth) {
+      const error = new Error('Invalid area width, width must be greater than 0');
+      error.name = ERRORS.INVALID_CAPTURE_AREA_WIDTH;
       throw error;
     }
 
-    snapshot = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    if (!areaHeight) {
+      const error = new Error('Invalid area height, height must be greater than 0');
+      error.name = ERRORS.INVALID_CAPTURE_AREA_HEIGHT;
+      throw error;
+    }
+    // Get the clipboard data
+    const items = (event.clipboardData || window.Clipboard).items;
+
+    // Create a new image element
+    const img = new Image();
+
+    // Loop through the clipboard items
+    for (const item of items) {
+      // Check if the clipboard item is an image
+      if (item.type.indexOf('image') !== -1) {
+        // Get the image data as a blob
+        const blob = item.getAsFile();
+
+        // Set the source of the image element to the blob data
+        img.src = URL.createObjectURL(blob);
+
+        // Add an onload handler to the image element
+        img.onload = ((width: number, height: number) => () => {
+          // Draw the image onto the canvas
+          ctx.drawImage(img, 0, 0, width, height);
+        })(areaWidth, areaHeight);
+      }
+    }
   };
 
   return {
     mouseDownHandler: mouseDownHandler,
     mouseMoveHandler: mouseMoveHandler,
     mouseUpHandler: mouseUpHandler,
+    onPasteHandler: onPasteHandler,
   };
 }
