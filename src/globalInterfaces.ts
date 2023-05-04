@@ -4,8 +4,9 @@ export interface CanvasCoordinates {
 }
 
 export interface Eventhandlers {
-  mouseDownHandler: (e: React.MouseEvent<HTMLCanvasElement, MouseEvent>) => void;
-  mouseMoveHandler: (e: React.MouseEvent<HTMLCanvasElement, MouseEvent>) => void;
-  mouseUpHandler: (e: React.MouseEvent<HTMLCanvasElement, MouseEvent>) => void;
-  onPasteHandler?: (e: any) => void;
+  mouseDownHandler?: (e: React.MouseEvent<HTMLCanvasElement, MouseEvent>) => void;
+  mouseMoveHandler?: (e: React.MouseEvent<HTMLCanvasElement, MouseEvent>) => void;
+  mouseUpHandler?: (e: React.MouseEvent<HTMLCanvasElement, MouseEvent>) => void;
+  onPasteHandler?: (e: React.ClipboardEvent<HTMLCanvasElement> | ClipboardEvent) => void;
+  onKeyDownHandler?: (e: React.KeyboardEvent<HTMLCanvasElement> | KeyboardEvent) => void;
 }

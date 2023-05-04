@@ -6,6 +6,8 @@ import { captureArea } from './captureArea';
 export default function getCaptureAreaHandlers(canvas: HTMLCanvasElement): Eventhandlers {
   let isCapturing: boolean = false;
 
+  let areaToCapture: HTMLCanvasElement;
+
   let startPoint: CanvasCoordinates = { x: 0, y: 0 };
   let endPoint: CanvasCoordinates = { x: 0, y: 0 };
   let snapshot: ImageData | undefined = undefined;
@@ -47,46 +49,24 @@ export default function getCaptureAreaHandlers(canvas: HTMLCanvasElement): Event
 
     const sectionWidth = Math.abs(endPoint.x - startPoint.x);
     const sectionHeight = Math.abs(endPoint.y - startPoint.y);
-    const section = document.createElement('canvas');
-    section.width = sectionWidth;
-    section.height = sectionHeight;
-    const sectionCtx = section.getContext('2d');
+    areaToCapture = document.createElement('canvas');
+    areaToCapture.width = sectionWidth;
+    areaToCapture.height = sectionHeight;
+    const sectionCtx = areaToCapture.getContext('2d');
 
     const imageData = ctx.getImageData(
       startPoint.x < endPoint.x ? startPoint.x : endPoint.x,
       startPoint.y < endPoint.y ? startPoint.y : endPoint.y,
-      section.width,
-      section.height
+      areaToCapture.width,
+      areaToCapture.height
     );
 
     sectionCtx?.putImageData(imageData, 0, 0);
-
-    const capturedAreaImage = new Image();
-    capturedAreaImage.src = section.toDataURL();
-
-    function dataURItoBlob(dataURI: any) {
-      var byteString = atob(dataURI.split(',')[1]);
-      var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
-      var ab = new ArrayBuffer(byteString.length);
-      var ia = new Uint8Array(ab);
-      for (var i = 0; i < byteString.length; i++) {
-        ia[i] = byteString.charCodeAt(i);
-      }
-      return new Blob([ab], { type: mimeString });
-    }
-
-    const imageBlob = dataURItoBlob(capturedAreaImage.src);
-
-    navigator.clipboard.write([
-      new ClipboardItem({
-        'image/png': imageBlob,
-      }),
-    ]);
   };
 
-  const onPasteHandler = (event: any) => {
+  const onPasteHandler = (e: any) => {
     // Get the clipboard data
-    const items = (event.clipboardData || window.Clipboard).items;
+    const items = (e.clipboardData || window.Clipboard).items;
 
     // Create a new image element
     const img = new Image();
@@ -108,10 +88,38 @@ export default function getCaptureAreaHandlers(canvas: HTMLCanvasElement): Event
     }
   };
 
+  const onKeyDownHandler = (e: any) => {
+    // Copy area to clipboard
+    if (e.ctrlKey && e.key === 'c') {
+      const capturedAreaImage = new Image();
+      capturedAreaImage.src = areaToCapture.toDataURL();
+
+      function dataURItoBlob(dataURI: any) {
+        var byteString = atob(dataURI.split(',')[1]);
+        var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+        var ab = new ArrayBuffer(byteString.length);
+        var ia = new Uint8Array(ab);
+        for (var i = 0; i < byteString.length; i++) {
+          ia[i] = byteString.charCodeAt(i);
+        }
+        return new Blob([ab], { type: mimeString });
+      }
+
+      const imageBlob = dataURItoBlob(capturedAreaImage.src);
+
+      navigator.clipboard.write([
+        new ClipboardItem({
+          'image/png': imageBlob,
+        }),
+      ]);
+    }
+  };
+
   return {
     mouseDownHandler: mouseDownHandler,
     mouseMoveHandler: mouseMoveHandler,
     mouseUpHandler: mouseUpHandler,
     onPasteHandler: onPasteHandler,
+    onKeyDownHandler: onKeyDownHandler,
   };
 }

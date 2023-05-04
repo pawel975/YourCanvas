@@ -22,12 +22,7 @@ type ToolHandlers = {
 };
 
 const DrawingContainer: React.FC = () => {
-  const [mouseListeners, setMouseListeners] = useState<Eventhandlers>({
-    mouseDownHandler: () => {},
-    mouseMoveHandler: () => {},
-    mouseUpHandler: () => {},
-    onPasteHandler: () => {},
-  });
+  const [mouseListeners, setMouseListeners] = useState<Eventhandlers>({});
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const canvasContainerRef = useRef<HTMLDivElement>(null);
   const [canvasSize, setCanvasSize] = useState<CanvasSize>({ width: '', height: '' });
@@ -83,14 +78,21 @@ const DrawingContainer: React.FC = () => {
   }, [currentToolId, currentColorHex, currentToolSize]);
 
   useEffect(() => {
-    // Add the onPaste event listener to the document
-    document.addEventListener('paste', mouseListeners.onPasteHandler!);
+    document.addEventListener(
+      'paste',
+      (e) => mouseListeners.onPasteHandler && mouseListeners.onPasteHandler(e)
+    );
 
-    // Clean up the event listener on unmount
+    document.addEventListener(
+      'keydown',
+      (e) => mouseListeners.onKeyDownHandler && mouseListeners.onKeyDownHandler(e)
+    );
+
     return () => {
-      document.removeEventListener('paste', mouseListeners.onPasteHandler!);
+      document.removeEventListener('paste', (e) => mouseListeners.onPasteHandler!(e));
+      document.removeEventListener('keydown', (e) => mouseListeners.onKeyDownHandler!(e));
     };
-  }, [mouseListeners.onPasteHandler]);
+  }, [mouseListeners]);
 
   return (
     <>
@@ -112,6 +114,7 @@ const DrawingContainer: React.FC = () => {
             onMouseMove={mouseListeners.mouseMoveHandler}
             onMouseUp={mouseListeners.mouseUpHandler}
             onPaste={mouseListeners.onPasteHandler}
+            onKeyDown={mouseListeners.onKeyDownHandler}
           ></canvas>
         </div>
       )}
