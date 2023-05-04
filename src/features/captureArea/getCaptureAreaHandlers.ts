@@ -2,6 +2,7 @@ import ERRORS from '../../data/errors';
 import { CanvasCoordinates, Eventhandlers } from '../../globalInterfaces';
 import computePointInCanvas from '../utils/computePointInCanvas';
 import { captureArea } from './captureArea';
+import { saveDataToClipboard } from './utils/saveDataToClipboard';
 
 export default function getCaptureAreaHandlers(canvas: HTMLCanvasElement): Eventhandlers {
   let isCapturing: boolean = false;
@@ -91,27 +92,7 @@ export default function getCaptureAreaHandlers(canvas: HTMLCanvasElement): Event
   const onKeyDownHandler = (e: any) => {
     // Copy area to clipboard
     if (e.ctrlKey && e.key === 'c') {
-      const capturedAreaImage = new Image();
-      capturedAreaImage.src = areaToCapture.toDataURL();
-
-      function dataURItoBlob(dataURI: any) {
-        var byteString = atob(dataURI.split(',')[1]);
-        var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
-        var ab = new ArrayBuffer(byteString.length);
-        var ia = new Uint8Array(ab);
-        for (var i = 0; i < byteString.length; i++) {
-          ia[i] = byteString.charCodeAt(i);
-        }
-        return new Blob([ab], { type: mimeString });
-      }
-
-      const imageBlob = dataURItoBlob(capturedAreaImage.src);
-
-      navigator.clipboard.write([
-        new ClipboardItem({
-          'image/png': imageBlob,
-        }),
-      ]);
+      saveDataToClipboard('image/png', areaToCapture);
     }
   };
 
