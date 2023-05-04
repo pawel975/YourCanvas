@@ -6,9 +6,6 @@ import { captureArea } from './captureArea';
 export default function getCaptureAreaHandlers(canvas: HTMLCanvasElement): Eventhandlers {
   let isCapturing: boolean = false;
 
-  let areaWidth: number | null;
-  let areaHeight: number | null;
-
   let startPoint: CanvasCoordinates = { x: 0, y: 0 };
   let endPoint: CanvasCoordinates = { x: 0, y: 0 };
   let snapshot: ImageData | undefined = undefined;
@@ -22,8 +19,6 @@ export default function getCaptureAreaHandlers(canvas: HTMLCanvasElement): Event
   }
 
   const mouseDownHandler = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    areaWidth = null;
-    areaHeight = null;
     isCapturing = true;
     startPoint = computePointInCanvas(canvas, e.clientX, e.clientY);
 
@@ -53,15 +48,15 @@ export default function getCaptureAreaHandlers(canvas: HTMLCanvasElement): Event
     const sectionWidth = Math.abs(endPoint.x - startPoint.x);
     const sectionHeight = Math.abs(endPoint.y - startPoint.y);
     const section = document.createElement('canvas');
-    areaWidth = sectionWidth;
-    areaHeight = sectionHeight;
+    section.width = sectionWidth;
+    section.height = sectionHeight;
     const sectionCtx = section.getContext('2d');
 
     const imageData = ctx.getImageData(
       startPoint.x < endPoint.x ? startPoint.x : endPoint.x,
       startPoint.y < endPoint.y ? startPoint.y : endPoint.y,
-      areaWidth,
-      areaHeight
+      section.width,
+      section.height
     );
 
     sectionCtx?.putImageData(imageData, 0, 0);
@@ -90,17 +85,6 @@ export default function getCaptureAreaHandlers(canvas: HTMLCanvasElement): Event
   };
 
   const onPasteHandler = (event: any) => {
-    if (!areaWidth) {
-      const error = new Error('Invalid area width, width must be greater than 0');
-      error.name = ERRORS.INVALID_CAPTURE_AREA_WIDTH;
-      throw error;
-    }
-
-    if (!areaHeight) {
-      const error = new Error('Invalid area height, height must be greater than 0');
-      error.name = ERRORS.INVALID_CAPTURE_AREA_HEIGHT;
-      throw error;
-    }
     // Get the clipboard data
     const items = (event.clipboardData || window.Clipboard).items;
 
@@ -117,11 +101,9 @@ export default function getCaptureAreaHandlers(canvas: HTMLCanvasElement): Event
         // Set the source of the image element to the blob data
         img.src = URL.createObjectURL(blob);
 
-        // Add an onload handler to the image element
-        img.onload = ((width: number, height: number) => () => {
-          // Draw the image onto the canvas
-          ctx.drawImage(img, 0, 0, width, height);
-        })(areaWidth, areaHeight);
+        img.onload = () => {
+          ctx.drawImage(img, 0, 0);
+        };
       }
     }
   };
