@@ -8,7 +8,11 @@ function dataURItoBlob(dataURI: any) {
   }
   return new Blob([ab], { type: mimeString });
 }
-
+/**
+ *
+ * @param type MIME type
+ * @param data to save to clipboard
+ */
 export const saveDataToClipboard = (type: string, data: HTMLCanvasElement) => {
   switch (type) {
     case 'image/png':
