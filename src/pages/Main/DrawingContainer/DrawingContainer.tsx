@@ -10,6 +10,7 @@ import ERRORS from '../../../data/errors';
 import { Alert } from '@mui/material';
 import toolsSchemeData from '../../../layouts/ToolBar/toolsSchemeData';
 import getErasserHandlers from '../../../features/eraser/getErasserHandlers';
+import { getCircleDrawHandlers } from '../../../features/drawing/circleDraw';
 
 interface CanvasSize {
   width: string;
@@ -56,6 +57,7 @@ const DrawingContainer: React.FC = () => {
         rect: getRectDrawHandlers(currentColorHex, currentToolSize, canvasRef.current),
         spray: getSprayDrawHandlers(currentColorHex, currentToolSize, canvasRef.current),
         eraser: getErasserHandlers(currentToolSize, canvasRef.current),
+        circle: getCircleDrawHandlers(currentColorHex, currentToolSize, canvasRef.current),
       };
 
       // Check if tool data is present if adding new handlers is the case.

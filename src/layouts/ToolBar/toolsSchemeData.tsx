@@ -1,4 +1,10 @@
-import { EraserIcon, MarkerIcon, RectangleIcon, SprayIcon } from './ToolSelection/Tool/icons';
+import {
+  CircleIcon,
+  EraserIcon,
+  MarkerIcon,
+  RectangleIcon,
+  SprayIcon,
+} from './ToolSelection/Tool/icons';
 
 interface toolsSchemaDataItem {
   id: string;
@@ -10,7 +16,7 @@ const toolsSchemeData: toolsSchemaDataItem[] = [
   {
     id: 'marker',
     icon: <MarkerIcon />,
-    sizesInPx: [1, 2, 4, 6, 8, 10, 12, 14, 16],
+    sizesInPx: [1, 2, 4, 6, 8, 10, 12, 14, 16, 32, 64],
   },
   {
     id: 'rect',
@@ -25,6 +31,11 @@ const toolsSchemeData: toolsSchemaDataItem[] = [
   {
     id: 'eraser',
     icon: <EraserIcon />,
+    sizesInPx: [6, 8, 10, 12, 14, 16, 18, 20, 24, 28, 32, 36, 40, 48, 60],
+  },
+  {
+    id: 'circle',
+    icon: <CircleIcon />,
     sizesInPx: [6, 8, 10, 12, 14, 16, 18, 20, 24, 28, 32, 36, 40, 48, 60],
   },
 ];
