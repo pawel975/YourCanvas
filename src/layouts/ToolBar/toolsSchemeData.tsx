@@ -1,6 +1,7 @@
 import {
   CircleIcon,
   EraserIcon,
+  LineIcon,
   MarkerIcon,
   RectangleIcon,
   SprayIcon,
@@ -36,6 +37,11 @@ const toolsSchemeData: toolsSchemaDataItem[] = [
   {
     id: 'circle',
     icon: <CircleIcon />,
+    sizesInPx: [6, 8, 10, 12, 14, 16, 18, 20, 24, 28, 32, 36, 40, 48, 60],
+  },
+  {
+    id: 'line',
+    icon: <LineIcon />,
     sizesInPx: [6, 8, 10, 12, 14, 16, 18, 20, 24, 28, 32, 36, 40, 48, 60],
   },
 ];

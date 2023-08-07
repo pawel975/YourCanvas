@@ -11,6 +11,8 @@ import { Alert } from '@mui/material';
 import toolsSchemeData from '../../../layouts/ToolBar/toolsSchemeData';
 import getErasserHandlers from '../../../features/eraser/getErasserHandlers';
 import { getCircleDrawHandlers } from '../../../features/drawing/circleDraw';
+import compareArrays from '../utils/compareArrays';
+import getLineDrawHandlers from '../../../features/drawing/lineDraw/getLineDrawHandlers';
 
 interface CanvasSize {
   width: string;
@@ -58,12 +60,16 @@ const DrawingContainer: React.FC = () => {
         spray: getSprayDrawHandlers(currentColorHex, currentToolSize, canvasRef.current),
         eraser: getErasserHandlers(currentToolSize, canvasRef.current),
         circle: getCircleDrawHandlers(currentColorHex, currentToolSize, canvasRef.current),
+        line: getLineDrawHandlers(currentColorHex, currentToolSize, canvasRef.current),
       };
 
       // Check if tool data is present if adding new handlers is the case.
-      if (Object.keys(toolHandlers).length !== toolsSchemeData.length) {
+      const toolHandlersNames = Object.keys(toolHandlers);
+      const toolsSchemaDataIds = toolsSchemeData.map((tool) => tool.id);
+
+      if (!compareArrays(toolHandlersNames, toolsSchemaDataIds)) {
         const error = new Error(
-          'toolHandlers and toolsSchemeData should contain equal count of elements as they refer to the amount of tools.'
+          'toolHandlers and toolsSchemeData should contain the same tool names'
         );
         error.name = ERRORS.INVALID_TOOL_CODE_SYNC;
         throw error;
