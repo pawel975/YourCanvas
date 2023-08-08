@@ -1,6 +1,6 @@
 import { useAppSelector } from '../../redux/hooks';
 import ColorSelection from './ColorSelection/ColorSelection';
-import NextStepButton from './OperationsOnHistory/NextStepButton/NextStepButton';
+import RedoStepButton from './OperationsOnHistory/RedoStepButton/RedoStepButton';
 import UndoStepButton from './OperationsOnHistory/UndoStepButton/UndoStepButton';
 import './ToolBar.css';
 import ToolSelection from './ToolSelection/ToolSelection';
@@ -11,8 +11,10 @@ const ToolBar: React.FC = () => {
 
   return (
     <div className="tool-bar">
-      <UndoStepButton />
-      <NextStepButton />
+      <div className="tool-bar__operations-on-history">
+        <UndoStepButton />
+        <RedoStepButton />
+      </div>
       <ToolSelection />
       {currentToolId.length > 0 && <ToolSizeSelection />}
       <ColorSelection />

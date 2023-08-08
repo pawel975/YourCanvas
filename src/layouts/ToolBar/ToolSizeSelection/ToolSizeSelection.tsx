@@ -1,5 +1,5 @@
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
-import toolsSchemeData from '../toolsSchemeData';
+import { drawingToolsScheme } from '../../ToolBar/schemeData';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { setToolSize } from './redux/toolSizeSelectionSlice';
 import { useEffect } from 'react';
@@ -8,7 +8,7 @@ const ToolSizeSelection: React.FC = () => {
   const dispatch = useAppDispatch();
   const currentToolSize = useAppSelector((state) => state.toolSizeSelection.size);
   const currentToolId = useAppSelector((state) => state.toolSelection.tool);
-  const toolSizes = toolsSchemeData.find((tool) => tool.id === currentToolId)?.sizesInPx;
+  const toolSizes = drawingToolsScheme.find((tool) => tool.id === currentToolId)?.sizesInPx;
 
   const toolSizesOptions = toolSizes?.map((size) => (
     <MenuItem

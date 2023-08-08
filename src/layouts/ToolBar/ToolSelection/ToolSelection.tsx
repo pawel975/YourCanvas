@@ -1,12 +1,12 @@
 import Tool from './Tool/Tool';
-import toolsSchemeData from '../toolsSchemeData';
+import { drawingToolsScheme } from '../../ToolBar/schemeData';
 import './ToolSelections.css';
 import { useAppSelector } from '../../../redux/hooks';
 
 const ToolSelection: React.FC = () => {
   const currentToolId = useAppSelector((state) => state.toolSelection.tool);
 
-  const tools = toolsSchemeData.map((tool) => {
+  const tools = drawingToolsScheme.map((tool) => {
     const { id, icon } = tool;
 
     return (

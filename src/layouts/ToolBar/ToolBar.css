@@ -14,6 +14,11 @@
   animation: toolBarAppear 0.5s;
 }
 
+.tool-bar__operations-on-history {
+  display: flex;
+  gap: 0.5rem;
+}
+
 @keyframes toolBarAppear {
   0% {
     left: -20%;

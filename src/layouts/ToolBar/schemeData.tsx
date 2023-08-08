@@ -5,15 +5,22 @@ import {
   MarkerIcon,
   RectangleIcon,
   SprayIcon,
-} from './ToolSelection/Tool/icons';
+  UndoIcon,
+  RedoIcon,
+} from './icons';
 
-interface toolsSchemaDataItem {
+interface DrawingToolsScheme {
   id: string;
   icon: React.ReactNode;
   sizesInPx: number[];
 }
 
-const toolsSchemeData: toolsSchemaDataItem[] = [
+interface OperationsOnHistoryScheme {
+  id: string;
+  icon: React.ReactNode;
+}
+
+const drawingToolsScheme: DrawingToolsScheme[] = [
   {
     id: 'marker',
     icon: <MarkerIcon />,
@@ -46,4 +53,15 @@ const toolsSchemeData: toolsSchemaDataItem[] = [
   },
 ];
 
-export default toolsSchemeData;
+const operationsOnHistoryScheme: OperationsOnHistoryScheme[] = [
+  {
+    id: 'undoStep',
+    icon: <UndoIcon />,
+  },
+  {
+    id: 'redoStep',
+    icon: <RedoIcon />,
+  },
+];
+
+export { drawingToolsScheme, operationsOnHistoryScheme };

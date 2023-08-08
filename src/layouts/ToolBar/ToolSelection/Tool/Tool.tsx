@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import './Tool.css';
+import '../../../../assets/button-icon.css';
 import { useAppDispatch } from '../../../../redux/hooks';
 import { AvailableToolId, setTool } from '../redux/toolSelectionSlice';
 
@@ -19,7 +19,7 @@ const Tool: React.FC<ToolProps> = ({ id, icon, active }) => {
   return (
     <button
       key={id}
-      className={`tool-icon ${active && 'active'}`}
+      className={`button-icon ${active && 'active'}`}
       onClick={handleToolOptionClick}
       id={id}
     >

@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { getSprayDrawHandlers } from '../../../features/drawing/sprayDraw';
 import ERRORS from '../../../data/errors';
 import { Alert } from '@mui/material';
-import toolsSchemeData from '../../../layouts/ToolBar/toolsSchemeData';
+import { drawingToolsScheme } from '../../../layouts/ToolBar/schemeData';
 import getErasserHandlers from '../../../features/eraser/getErasserHandlers';
 import { getCircleDrawHandlers } from '../../../features/drawing/circleDraw';
 import compareArrays from '../utils/compareArrays';
@@ -18,7 +18,7 @@ import {
   setIsSnapshotEditingActive,
   updateCurrentSnapshotId,
   updateSnapshotHistory,
-} from '../../../features/snapshotHistory/redux/snapshotHistorySlice';
+} from '../../../layouts/ToolBar/OperationsOnHistory/snapshotHistory/redux/snapshotHistorySlice';
 
 interface CanvasSize {
   width: string;
@@ -68,7 +68,6 @@ const DrawingContainer: React.FC = () => {
       const ctx = canvasRef.current.getContext('2d');
 
       if (ctx) {
-        // const imageData = ctx.getImageData(0, 0, canvasRef.current.width, canvasRef.current.height);
         canvasRef.current.toBlob(function (blob) {
           const cuttedArray = [...snapshotHistory].slice(0, currentSnapshotId + 1);
           dispatch(updateSnapshotHistory(cuttedArray));
@@ -81,7 +80,19 @@ const DrawingContainer: React.FC = () => {
   };
 
   useEffect(() => {
-    // TODO: It breaks drawing because it erases whole canvas
+    // TODO: Refactor this
+
+    if (snapshotHistory.length === 0) {
+      if (canvasRef.current) {
+        const ctx = canvasRef.current.getContext('2d');
+
+        if (ctx) {
+          canvasRef.current.toBlob(function (blob) {
+            dispatch(saveSnapshotToHistory(URL.createObjectURL(blob!)));
+          });
+        }
+      }
+    }
 
     if (isSnapshotEditigActive) {
       if (canvasRef.current) {
@@ -90,9 +101,11 @@ const DrawingContainer: React.FC = () => {
 
         readedImage.src = snapshotHistory[currentSnapshotId];
 
-        canvas.getContext('2d')?.clearRect(0, 0, canvas.width, canvas.height);
-
-        setTimeout(() => canvas.getContext('2d')?.drawImage(readedImage, 0, 0), 1);
+        // Waits for image to load so there is no delay in image rendering
+        readedImage.onload = function () {
+          canvas.getContext('2d')?.clearRect(0, 0, canvas.width, canvas.height);
+          canvas.getContext('2d')?.drawImage(readedImage, 0, 0);
+        };
       }
     }
   }, [currentSnapshotId, isSnapshotEditigActive, snapshotHistory]);
@@ -116,12 +129,10 @@ const DrawingContainer: React.FC = () => {
 
       // Check if tool data is present if adding new handlers is the case.
       const toolHandlersNames = Object.keys(toolHandlers);
-      const toolsSchemaDataIds = toolsSchemeData.map((tool) => tool.id);
+      const toolsSchemaDataIds = drawingToolsScheme.map((tool) => tool.id);
 
       if (!compareArrays(toolHandlersNames, toolsSchemaDataIds)) {
-        const error = new Error(
-          'toolHandlers and toolsSchemeData should contain the same tool names'
-        );
+        const error = new Error('toolHandlers and schemeData should contain the same tool names');
         error.name = ERRORS.INVALID_TOOL_CODE_SYNC;
         throw error;
       }
