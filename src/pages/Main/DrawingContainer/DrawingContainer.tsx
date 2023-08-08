@@ -4,7 +4,7 @@ import getWindowSize from '../../../utils/getWindowSize';
 import getMarkerDrawHandlers from '../../../features/drawing/markerDraw/getMarkerDrawHandlers';
 import getRectDrawHandlers from '../../../features/drawing/rectDraw/getRectDrawHandlers';
 import { Eventhandlers } from '../../../globalInterfaces';
-import { useAppSelector } from '../../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { getSprayDrawHandlers } from '../../../features/drawing/sprayDraw';
 import ERRORS from '../../../data/errors';
 import { Alert } from '@mui/material';
@@ -13,6 +13,12 @@ import getErasserHandlers from '../../../features/eraser/getErasserHandlers';
 import { getCircleDrawHandlers } from '../../../features/drawing/circleDraw';
 import compareArrays from '../utils/compareArrays';
 import getLineDrawHandlers from '../../../features/drawing/lineDraw/getLineDrawHandlers';
+import {
+  saveSnapshotToHistory,
+  setIsSnapshotEditingActive,
+  updateCurrentSnapshotId,
+  updateSnapshotHistory,
+} from '../../../features/snapshotHistory/redux/snapshotHistorySlice';
 
 interface CanvasSize {
   width: string;
@@ -37,7 +43,15 @@ const DrawingContainer: React.FC = () => {
   const currentColorHex: string = useAppSelector((state) => state.colorSelection.color);
   const currentToolSize: number = useAppSelector((state) => state.toolSizeSelection.size);
 
+  const snapshotHistory = useAppSelector((state) => state.snapshotHistory.snapshots);
+  const currentSnapshotId = useAppSelector((state) => state.snapshotHistory.currentSnapshotId);
+  const isSnapshotEditigActive = useAppSelector(
+    (state) => state.snapshotHistory.isSnapshotEditingActive
+  );
+
   const [isError, setIsError] = useState<boolean>(false);
+
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     setCanvasSize({
@@ -45,6 +59,43 @@ const DrawingContainer: React.FC = () => {
       height: getWindowSize('height', canvasContainerRef),
     });
   }, []);
+
+  const handleMouseUp = (e: any) => {
+    mouseListeners.mouseUpHandler(e);
+    console.log('mouse up!');
+
+    if (canvasRef.current) {
+      const ctx = canvasRef.current.getContext('2d');
+
+      if (ctx) {
+        // const imageData = ctx.getImageData(0, 0, canvasRef.current.width, canvasRef.current.height);
+        canvasRef.current.toBlob(function (blob) {
+          const cuttedArray = [...snapshotHistory].slice(0, currentSnapshotId + 1);
+          dispatch(updateSnapshotHistory(cuttedArray));
+          dispatch(saveSnapshotToHistory(URL.createObjectURL(blob!)));
+          dispatch(setIsSnapshotEditingActive(false));
+          dispatch(updateCurrentSnapshotId(currentSnapshotId + 1));
+        });
+      }
+    }
+  };
+
+  useEffect(() => {
+    // TODO: It breaks drawing because it erases whole canvas
+
+    if (isSnapshotEditigActive) {
+      if (canvasRef.current) {
+        const canvas = canvasRef.current;
+        const readedImage = new Image();
+
+        readedImage.src = snapshotHistory[currentSnapshotId];
+
+        canvas.getContext('2d')?.clearRect(0, 0, canvas.width, canvas.height);
+
+        setTimeout(() => canvas.getContext('2d')?.drawImage(readedImage, 0, 0), 1);
+      }
+    }
+  }, [currentSnapshotId, isSnapshotEditigActive, snapshotHistory]);
 
   useEffect(() => {
     try {
@@ -105,7 +156,7 @@ const DrawingContainer: React.FC = () => {
             ref={canvasRef}
             onMouseDown={mouseListeners.mouseDownHandler}
             onMouseMove={mouseListeners.mouseMoveHandler}
-            onMouseUp={mouseListeners.mouseUpHandler}
+            onMouseUp={(e) => handleMouseUp(e)}
           ></canvas>
         </div>
       )}

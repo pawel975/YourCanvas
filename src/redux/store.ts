@@ -3,12 +3,15 @@ import createNewProjectButtonReducer from '../layouts/NavBar/CreateNewProjectMen
 import toolSelectionReducer from '../layouts/ToolBar/ToolSelection/redux/toolSelectionSlice';
 import colorSelectionReducer from '../layouts/ToolBar/ColorSelection/redux/colorSelectionSlice';
 import toolSizeSelectionReducer from '../layouts/ToolBar/ToolSizeSelection/redux/toolSizeSelectionSlice';
+import snapshotHistoryReducer from '../features/snapshotHistory/redux/snapshotHistorySlice';
+
 const store = configureStore({
   reducer: {
     createNewProjectButton: createNewProjectButtonReducer,
     toolSelection: toolSelectionReducer,
     colorSelection: colorSelectionReducer,
     toolSizeSelection: toolSizeSelectionReducer,
+    snapshotHistory: snapshotHistoryReducer,
   },
 });
 
