@@ -7,6 +7,7 @@ import {
   SprayIcon,
   UndoIcon,
   RedoIcon,
+  FillAreaIcon,
 } from './icons';
 
 interface DrawingToolsScheme {
@@ -50,6 +51,11 @@ const drawingToolsScheme: DrawingToolsScheme[] = [
     id: 'line',
     icon: <LineIcon />,
     sizesInPx: [6, 8, 10, 12, 14, 16, 18, 20, 24, 28, 32, 36, 40, 48, 60],
+  },
+  {
+    id: 'fillArea',
+    icon: <FillAreaIcon />,
+    sizesInPx: [],
   },
 ];
 

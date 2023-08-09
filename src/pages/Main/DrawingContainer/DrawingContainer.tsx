@@ -19,6 +19,7 @@ import {
   updateCurrentSnapshotId,
   updateSnapshotHistory,
 } from '../../../layouts/ToolBar/OperationsOnHistory/snapshotHistory/redux/snapshotHistorySlice';
+import { getFillAreaHandlers } from '../../../features/fillArea';
 
 interface CanvasSize {
   width: string;
@@ -125,6 +126,7 @@ const DrawingContainer: React.FC = () => {
         eraser: getErasserHandlers(currentToolSize, canvasRef.current),
         circle: getCircleDrawHandlers(currentColorHex, currentToolSize, canvasRef.current),
         line: getLineDrawHandlers(currentColorHex, currentToolSize, canvasRef.current),
+        fillArea: getFillAreaHandlers(currentColorHex, canvasRef.current),
       };
 
       // Check if tool data is present if adding new handlers is the case.
