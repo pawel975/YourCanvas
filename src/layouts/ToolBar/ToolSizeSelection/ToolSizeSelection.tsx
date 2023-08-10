@@ -32,6 +32,7 @@ const ToolSizeSelection: React.FC = () => {
 
   return (
     <FormControl
+      disabled={toolSizes?.length === 0 ? true : false}
       variant="outlined"
       fullWidth
     >
