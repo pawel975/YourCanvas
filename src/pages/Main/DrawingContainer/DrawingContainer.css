@@ -7,5 +7,5 @@
 }
 
 .project-canvas {
-  image-rendering: pixelated;
+  image-rendering: optimizeSpeed;
 }
